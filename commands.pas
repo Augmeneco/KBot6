@@ -32,7 +32,7 @@ interface
 
 implementation
   uses
-    {$ifdef unix}cthreads,{$endif} RegExpr, sysutils, strutils,
+    RegExpr, sysutils, strutils,
     Database, Utils;
 
   //procedure TCommand.handler(msg: TJSONObject); begin end;

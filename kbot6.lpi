@@ -39,39 +39,38 @@
         <UnitName Value="KBot6"/>
       </Unit0>
       <Unit1>
-        <Filename Value="src/commands.pas"/>
+        <Filename Value="net.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Commands"/>
+        <UnitName Value="Net"/>
       </Unit1>
       <Unit2>
-        <Filename Value="src/database.pas"/>
+        <Filename Value="vkapi.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Database"/>
+        <UnitName Value="VKAPI"/>
       </Unit2>
       <Unit3>
-        <Filename Value="src/luaplugins.pas"/>
+        <Filename Value="luaplugins.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="LuaPlugins"/>
       </Unit3>
       <Unit4>
-        <Filename Value="src/net.pas"/>
+        <Filename Value="commands.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Net"/>
+        <UnitName Value="Commands"/>
       </Unit4>
       <Unit5>
-        <Filename Value="src/utils.pas"/>
+        <Filename Value="utils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Utils"/>
       </Unit5>
       <Unit6>
-        <Filename Value="src/vkapi.pas"/>
+        <Filename Value="database.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="VKAPI"/>
+        <UnitName Value="Database"/>
       </Unit6>
       <Unit7>
-        <Filename Value="src/pythonplugins.pas"/>
+        <Filename Value="pythonplugins.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="PythonPlugins"/>
       </Unit7>
     </Units>
   </ProjectOptions>
@@ -83,7 +82,7 @@
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
       <OtherUnitFiles Value="src"/>
-      <UnitOutputDirectory Value="units/$(TargetCPU)-$(TargetOS)"/>
+      <UnitOutputDirectory Value="compunits/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
@@ -103,4 +102,17 @@
       </Options>
     </Linking>
   </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
 </CONFIG>
