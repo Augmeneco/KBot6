@@ -1,10 +1,10 @@
-bin/*
-backup/
+/bin/*
+/backup
 /compunits
-liblua.a
+/liblua.a
 **/*.res
 !bin/plugins/**
-!bin/lib/*
+!bin/lib
 !bin/kbot6
 !bin/run.sh
 !bin/bot.cfg.example
