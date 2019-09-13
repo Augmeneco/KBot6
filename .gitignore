@@ -1,0 +1,5 @@
+**/bin/
+**/backup/
+**/units/
+liblua.a
+**/*.res
