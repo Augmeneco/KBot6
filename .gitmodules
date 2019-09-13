@@ -1,0 +1,3 @@
+[submodule "bin/plugins"]
+	path = bin/plugins
+	url = https://github.com/Augmeneco/KBot6-Plugins.git

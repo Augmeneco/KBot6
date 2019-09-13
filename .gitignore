@@ -3,3 +3,4 @@
 **/units/
 liblua.a
 **/*.res
+!bin/plugins/
