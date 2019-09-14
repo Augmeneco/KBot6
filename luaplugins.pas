@@ -18,7 +18,7 @@ interface
 implementation
   uses
     fpjson,
-    Commands, Database, VKAPI;
+    Commands, Database, VKAPI, Utils;
 
   type
     TLuaCommand = class (TCommand)
@@ -292,9 +292,7 @@ implementation
   begin
     if findFirst('./plugins/*.lua', faAnyFile, fileSearchResult) = 0 then
       repeat
-        //writeln(copy(fileSearchResult.name, 0, length(fileSearchResult.name)-4));
-        //setLength(luaStates, length(luaStates)+1);
-        //luaStates[high(luaStates)] := luaState;
+
         luaL_openlibs(mainLuaState);
         //создание стандартных функций
         lua_register(mainLuaState, 'reg_handler', @registerHandlerLua);
@@ -303,6 +301,10 @@ implementation
         lua_register(mainLuaState, 'dbexec_in', @dbExecInLua);
         lua_register(mainLuaState, 'dbexec_out', @dbExecOutLua);
         lua_register(mainLuaState, 'vkapi', @callVkApiLua);
+        //создание стандартных переменных
+        lua_newtable(mainLuaState);
+        JSONtoTable(mainLuaState, config);
+        lua_setglobal(mainLuaState, 'config');
 
         if lua_dofile(mainLuaState, PChar('./plugins/'+fileSearchResult.name)) <> 0 then
           writeln('Error while loading plugin "', fileSearchResult.name, '": ', lua_tostring(mainLuaState, -1));;
