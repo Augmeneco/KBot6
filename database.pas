@@ -11,7 +11,7 @@ interface
 
 implementation
   uses
-    sqlite3conn, db, SQLdb;
+    sqlite3conn, db, SQLdb, sysutils;
 
   var
     conn: TSQLite3Connection;

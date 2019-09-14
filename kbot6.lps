@@ -44,7 +44,6 @@
         <Filename Value="main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="KBot6"/>
-        <IsVisibleTab Value="True"/>
         <CursorPos X="20" Y="14"/>
         <IsLocked Value="True"/>
         <ExtraEditorCount Value="1"/>
@@ -229,9 +228,10 @@
         <Filename Value="database.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Database"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="43"/>
-        <CursorPos X="32" Y="63"/>
+        <TopLine Value="49"/>
+        <CursorPos X="37" Y="14"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
           <IsVisibleTab Value="True"/>
@@ -272,7 +272,7 @@
         <UsageCount Value="52"/>
       </Unit22>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
+    <JumpHistory Count="3" HistoryIndex="2">
       <Position1>
         <Filename Value="main.pas"/>
         <Caret Line="25"/>
@@ -280,6 +280,10 @@
       <Position2>
         <Filename Value="main.pas"/>
       </Position2>
+      <Position3>
+        <Filename Value="main.pas"/>
+        <Caret Line="14" Column="20"/>
+      </Position3>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
