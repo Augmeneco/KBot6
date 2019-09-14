@@ -3,6 +3,7 @@
 /compunits
 /liblua.a
 **/*.res
+**/*.o
 !bin/plugins/**
 !bin/lib
 !bin/kbot6

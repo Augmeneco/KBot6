@@ -1,6 +1,7 @@
 program KBot6;
 
 {$linklib m}
+{$linklib pthread}
 
 uses
   {$ifdef unix}cthreads,{$endif} fpjson, sysutils,
