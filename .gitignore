@@ -5,7 +5,5 @@
 **/*.res
 **/*.o
 !bin/plugins/**
-!bin/lib
-!bin/kbot6
 !bin/run.sh
 !bin/bot.cfg.example
