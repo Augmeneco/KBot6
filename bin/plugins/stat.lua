@@ -1,5 +1,5 @@
 cmd = {}
-cmd['keywords']={'стата', 'статус'}
+cmd['keywords']={'стата', 'статус', 'стат'}
 cmd['level'] = 1
 
 function cmd.handler(msg)

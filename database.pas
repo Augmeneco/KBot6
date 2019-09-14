@@ -60,6 +60,12 @@ implementation
   end;
 
 begin
+  if not fileExists('./users.db') then
+  begin
+    writeLn('ERROR: Database "users.db" not exist!');
+    halt(1);
+  end;
+
   conn := TSQLite3Connection.create(nil);
   conn.databaseName := './users.db';
   trans := TSQLTransaction.create(nil);

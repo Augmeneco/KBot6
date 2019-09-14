@@ -18,6 +18,12 @@ implementation
     configText, buffer: String;
 
 begin
+  if not fileExists('./bot.cfg') then
+  begin
+    writeLn('ERROR: Config "bot.cfg" not exist!');
+    halt(1);
+  end;
+
   assignFile(configFile, './bot.cfg');
   try
     reset(configFile);

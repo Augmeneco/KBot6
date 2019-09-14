@@ -71,6 +71,7 @@
       <Unit7>
         <Filename Value="pythonplugins.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="PythonPlugins"/>
       </Unit7>
     </Units>
   </ProjectOptions>
