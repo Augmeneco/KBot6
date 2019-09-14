@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CONFIG>
-  <Compiler Value="/usr/bin/fpc" Date="1540814642"/>
-  <Params Value=" -MObjFPC -Schi -CX -Cg -O4 -XX -k-R -k./ -l -vewnhibq -Fi/media/lanode/Хранилище/Development/KBot6Laz/units/x86_64-linux -Fu/media/lanode/Хранилище/Development/KBot6Laz/src -Fu/media/lanode/Хранилище/Development/KBot6Laz/ -FU/media/lanode/Хранилище/Development/KBot6Laz/units/x86_64-linux/ -FE/media/lanode/Хранилище/Development/KBot6Laz/bin/ -o/media/lanode/Хранилище/Development/KBot6Laz/bin/kbot6 main.pas"/>
-</CONFIG>
