@@ -43,10 +43,11 @@ begin
         msg := TJSONObject(lpUpdate.value).objects['object'];
 
         try
+          //raise Exception.create('AAA KERNEL PANIC!!!');
           commandsHandler(msg)
         except
           on E: Exception do
-            writeLn('Произошла ошибка: '+E.Message);
+            writeLn('Произошла ошибка: '+E.ToString());
         end;
       end;
     end;
