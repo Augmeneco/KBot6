@@ -44,9 +44,8 @@
         <Filename Value="main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="KBot6"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="29"/>
-        <CursorPos X="54" Y="50"/>
+        <CursorPos X="13" Y="46"/>
         <IsLocked Value="True"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
@@ -56,6 +55,94 @@
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
+        <Filename Value="net.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Net"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="23"/>
+        <CursorPos X="28" Y="34"/>
+        <UsageCount Value="281"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="vkapi.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="VKAPI"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="33"/>
+        <CursorPos X="10" Y="33"/>
+        <UsageCount Value="266"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="luaplugins.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="LuaPlugins"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="194"/>
+        <CursorPos X="42" Y="75"/>
+        <ExtraEditorCount Value="1"/>
+        <ExtraEditor1>
+          <EditorIndex Value="-1"/>
+          <WindowIndex Value="1"/>
+          <TopLine Value="215"/>
+          <CursorPos X="15" Y="139"/>
+        </ExtraEditor1>
+        <UsageCount Value="220"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="commands.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Commands"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="67"/>
+        <CursorPos X="8" Y="67"/>
+        <ExtraEditorCount Value="1"/>
+        <ExtraEditor1>
+          <EditorIndex Value="-1"/>
+          <WindowIndex Value="1"/>
+          <TopLine Value="89"/>
+          <CursorPos X="20" Y="108"/>
+        </ExtraEditor1>
+        <UsageCount Value="198"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="utils.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Utils"/>
+        <EditorIndex Value="4"/>
+        <CursorPos X="3" Y="21"/>
+        <UsageCount Value="168"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="database.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Database"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="49"/>
+        <CursorPos X="37" Y="14"/>
+        <ExtraEditorCount Value="1"/>
+        <ExtraEditor1>
+          <EditorIndex Value="-1"/>
+          <WindowIndex Value="-1"/>
+          <TopLine Value="17"/>
+          <CursorPos X="8" Y="24"/>
+        </ExtraEditor1>
+        <UsageCount Value="151"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="pythonplugins.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="PythonPlugins"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="62"/>
+      </Unit7>
+      <Unit8>
         <Filename Value="src/commands.pas"/>
         <UnitName Value="Commands"/>
         <EditorIndex Value="-1"/>
@@ -69,8 +156,8 @@
           <CursorPos X="24" Y="38"/>
         </ExtraEditor1>
         <UsageCount Value="113"/>
-      </Unit1>
-      <Unit2>
+      </Unit8>
+      <Unit9>
         <Filename Value="src/database.pas"/>
         <UnitName Value="Database"/>
         <EditorIndex Value="-1"/>
@@ -78,8 +165,8 @@
         <TopLine Value="43"/>
         <CursorPos Y="63"/>
         <UsageCount Value="113"/>
-      </Unit2>
-      <Unit3>
+      </Unit9>
+      <Unit10>
         <Filename Value="src/luaplugins.pas"/>
         <UnitName Value="LuaPlugins"/>
         <EditorIndex Value="-1"/>
@@ -93,8 +180,8 @@
           <CursorPos X="38" Y="163"/>
         </ExtraEditor1>
         <UsageCount Value="113"/>
-      </Unit3>
-      <Unit4>
+      </Unit10>
+      <Unit11>
         <Filename Value="src/net.pas"/>
         <UnitName Value="Net"/>
         <EditorIndex Value="-1"/>
@@ -102,8 +189,8 @@
         <TopLine Value="22"/>
         <CursorPos X="25" Y="22"/>
         <UsageCount Value="113"/>
-      </Unit4>
-      <Unit5>
+      </Unit11>
+      <Unit12>
         <Filename Value="src/utils.pas"/>
         <UnitName Value="Utils"/>
         <EditorIndex Value="-1"/>
@@ -111,8 +198,8 @@
         <TopLine Value="9"/>
         <CursorPos X="6" Y="20"/>
         <UsageCount Value="113"/>
-      </Unit5>
-      <Unit6>
+      </Unit12>
+      <Unit13>
         <Filename Value="src/vkapi.pas"/>
         <UnitName Value="VKAPI"/>
         <EditorIndex Value="-1"/>
@@ -120,164 +207,75 @@
         <TopLine Value="49"/>
         <CursorPos Y="64"/>
         <UsageCount Value="113"/>
-      </Unit6>
-      <Unit7>
+      </Unit13>
+      <Unit14>
         <Filename Value="src/pythonplugins.pas"/>
         <UnitName Value="PythonPlugins"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <CursorPos X="19"/>
         <UsageCount Value="91"/>
-      </Unit7>
-      <Unit8>
-        <Filename Value="net.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Net"/>
-        <EditorIndex Value="6"/>
-        <TopLine Value="23"/>
-        <CursorPos X="28" Y="34"/>
-        <UsageCount Value="281"/>
-        <Loaded Value="True"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="vkapi.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="VKAPI"/>
-        <EditorIndex Value="7"/>
-        <TopLine Value="33"/>
-        <CursorPos X="10" Y="33"/>
-        <UsageCount Value="266"/>
-        <Loaded Value="True"/>
-      </Unit9>
-      <Unit10>
+      </Unit14>
+      <Unit15>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-json/src/fpjson.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="416"/>
         <CursorPos X="14" Y="426"/>
         <UsageCount Value="6"/>
-      </Unit10>
-      <Unit11>
-        <Filename Value="luaplugins.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="LuaPlugins"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="144"/>
-        <CursorPos X="57" Y="158"/>
-        <ExtraEditorCount Value="1"/>
-        <ExtraEditor1>
-          <EditorIndex Value="-1"/>
-          <WindowIndex Value="1"/>
-          <TopLine Value="215"/>
-          <CursorPos X="15" Y="139"/>
-        </ExtraEditor1>
-        <UsageCount Value="220"/>
-        <Loaded Value="True"/>
-      </Unit11>
-      <Unit12>
+      </Unit15>
+      <Unit16>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/lua/src/lua.pas"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <UsageCount Value="6"/>
-      </Unit12>
-      <Unit13>
+      </Unit16>
+      <Unit17>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/lua/src/lualib.pas"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <UsageCount Value="6"/>
-      </Unit13>
-      <Unit14>
+      </Unit17>
+      <Unit18>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/lua/src/lauxlib.pas"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <UsageCount Value="6"/>
-      </Unit14>
-      <Unit15>
-        <Filename Value="commands.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Commands"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="55"/>
-        <CursorPos X="8" Y="67"/>
-        <ExtraEditorCount Value="1"/>
-        <ExtraEditor1>
-          <EditorIndex Value="-1"/>
-          <WindowIndex Value="1"/>
-          <TopLine Value="89"/>
-          <CursorPos X="20" Y="108"/>
-        </ExtraEditor1>
-        <UsageCount Value="194"/>
-        <Loaded Value="True"/>
-      </Unit15>
-      <Unit16>
+      </Unit18>
+      <Unit19>
         <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/inc/systemh.inc"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <TopLine Value="326"/>
         <CursorPos X="3" Y="338"/>
         <UsageCount Value="3"/>
-      </Unit16>
-      <Unit17>
-        <Filename Value="utils.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Utils"/>
-        <EditorIndex Value="5"/>
-        <CursorPos X="3" Y="21"/>
-        <UsageCount Value="164"/>
-        <Loaded Value="True"/>
-      </Unit17>
-      <Unit18>
-        <Filename Value="database.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Database"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="49"/>
-        <CursorPos X="37" Y="14"/>
-        <ExtraEditorCount Value="1"/>
-        <ExtraEditor1>
-          <IsVisibleTab Value="True"/>
-          <EditorIndex Value="-1"/>
-          <WindowIndex Value="1"/>
-          <TopLine Value="17"/>
-          <CursorPos X="8" Y="24"/>
-        </ExtraEditor1>
-        <UsageCount Value="147"/>
-        <Loaded Value="True"/>
-      </Unit18>
-      <Unit19>
+      </Unit19>
+      <Unit20>
         <Filename Value="src/main.pas"/>
         <UnitName Value="KBot6"/>
         <EditorIndex Value="-1"/>
         <UsageCount Value="16"/>
-      </Unit19>
-      <Unit20>
+      </Unit20>
+      <Unit21>
         <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/unix/cthreads.pp"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <TopLine Value="103"/>
         <UsageCount Value="1"/>
-      </Unit20>
-      <Unit21>
+      </Unit21>
+      <Unit22>
         <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/inc/threadh.inc"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <TopLine Value="23"/>
         <CursorPos X="3" Y="35"/>
         <UsageCount Value="3"/>
-      </Unit21>
-      <Unit22>
-        <Filename Value="pythonplugins.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="PythonPlugins"/>
-        <EditorIndex Value="-1"/>
-        <UsageCount Value="58"/>
       </Unit22>
       <Unit23>
         <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/objpas/sysutils/sysutilh.inc"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="105"/>
         <CursorPos X="27" Y="124"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit23>
     </Units>
     <JumpHistory Count="8" HistoryIndex="7">

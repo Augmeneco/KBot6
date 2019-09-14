@@ -72,7 +72,7 @@ implementation
 
         TJSONtype.jtString:
         begin
-          lua_pushstring(luaState, enum.value.asUnicodeString);
+          lua_pushstring(luaState, enum.value.asString);
 
           if json.JSONType = TJSONtype.jtArray then
             lua_rawseti(luaState, -2, enum.KeyNum)
