@@ -4,6 +4,8 @@
 /liblua.a
 **/*.res
 **/*.o
+**/liblua.a
+**/lua
 !bin/plugins/**
 !bin/run.sh
 !bin/bot.cfg.example
