@@ -2,7 +2,6 @@ program KBot6;
 
 {$linklib m}
 {$linklib pthread}
-{$linklib gcc}
 
 uses
   {$ifdef unix}cthreads,{$endif} fpjson, sysutils,
