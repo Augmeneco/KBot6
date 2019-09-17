@@ -5,8 +5,13 @@ interface
   uses
     fpjson, jsonparser;
 
+  type
+    TLogType = (logNormal, logGood, logError, logWarning);
+
   var
     config: TJSONObject;
+
+  procedure logWrite(str: UnicodeString; logType: TLogType=TLogType.logNormal);
 
 
 implementation
@@ -16,6 +21,14 @@ implementation
   var
     configFile: TextFile;
     configText, buffer: String;
+
+  procedure logWrite(str: UnicodeString; logType: TLogType=TLogType.logNormal);
+  var
+    logTime: TDateTime;
+  begin
+    logTime := now();
+    writeln(formatDateTime('[dd/mm/yy hh:nn:ss"."zzz]', logTime), ' ', str);
+  end;
 
 begin
   if not fileExists('./bot.cfg') then

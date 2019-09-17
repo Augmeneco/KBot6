@@ -3,9 +3,12 @@
 /compunits
 /liblua.a
 **/*.res
-**/*.o
-**/liblua.a
+**/*.o.*
+**/*.a.*
+**/*.so.*
 **/lua
+!bin/plugins
+!bin/plugins/*
 !bin/plugins/**
 !bin/run.sh
 !bin/bot.cfg.example

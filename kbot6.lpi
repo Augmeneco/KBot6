@@ -82,7 +82,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="src"/>
+      <OtherUnitFiles Value="lib/python4delphi"/>
       <UnitOutputDirectory Value="compunits/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

@@ -154,8 +154,6 @@ implementation
         exit;
     regex.free();
 
-    writeln(msg.AsJSON);
-
     for cmd in commandsArray do
     begin
       found := false;

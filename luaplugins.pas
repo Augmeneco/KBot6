@@ -1,15 +1,6 @@
 unit LuaPlugins;
 
 interface
-  uses
-    lua, lualib, lauxlib, fgl, sysutils;
-
-  type
-    TPointerMap = specialize TFPGMap<String, Pointer>;
-
-  var
-    mainLuaState: Plua_State;
-    mainLuaMutex: TRTLCriticalSection;
 
   procedure luaGetPath(pathString: String);
   procedure luaLoadPlugins();
@@ -17,8 +8,8 @@ interface
 
 implementation
   uses
-    fpjson,
-    Commands, Database, VKAPI, Utils;
+    fpjson, lua, lualib, lauxlib, fgl, sysutils,
+    Commands, Database, VKAPI, Utils, Net;
 
   type
     TLuaCommand = class (TCommand)
@@ -31,6 +22,10 @@ implementation
       luaState: Plua_State;
       procedure handler(msg: TJSONObject); override;
     end;
+
+  var
+    mainLuaState: Plua_State;
+    mainLuaMutex: TRTLCriticalSection;
 
   procedure JSONtoTable(luaState: Plua_State; json: TJSONData);
   var
@@ -45,7 +40,7 @@ implementation
           lua_pushnil(luaState);
 
           if json.JSONType = TJSONtype.jtArray then
-            lua_rawseti(luaState, -2, enum.KeyNum)
+            lua_rawseti(luaState, -2, enum.KeyNum+1)
           else if json.JSONType = TJSONtype.jtObject then
             lua_setfield(luaState, -2, PChar(enum.key));
         end;
@@ -55,7 +50,7 @@ implementation
           lua_pushboolean(luaState, enum.value.asBoolean);
 
           if json.JSONType = TJSONtype.jtArray then
-            lua_rawseti(luaState, -2, enum.KeyNum)
+            lua_rawseti(luaState, -2, enum.KeyNum+1)
           else if json.JSONType = TJSONtype.jtObject then
             lua_setfield(luaState, -2, PChar(enum.key));
         end;
@@ -65,7 +60,7 @@ implementation
           lua_pushnumber(luaState, Double(enum.value.asFloat));
 
           if json.JSONType = TJSONtype.jtArray then
-            lua_rawseti(luaState, -2, enum.KeyNum)
+            lua_rawseti(luaState, -2, enum.KeyNum+1)
           else if json.JSONType = TJSONtype.jtObject then
             lua_setfield(luaState, -2, PChar(enum.key));
         end;
@@ -75,7 +70,7 @@ implementation
           lua_pushstring(luaState, enum.value.asString);
 
           if json.JSONType = TJSONtype.jtArray then
-            lua_rawseti(luaState, -2, enum.KeyNum)
+            lua_rawseti(luaState, -2, enum.KeyNum+1)
           else if json.JSONType = TJSONtype.jtObject then
             lua_setfield(luaState, -2, PChar(enum.key));
         end;
@@ -85,7 +80,7 @@ implementation
           lua_newtable(luaState);
 
           if json.JSONType = TJSONtype.jtArray then
-            lua_rawseti(luaState, -2, enum.KeyNum)
+            lua_rawseti(luaState, -2, enum.KeyNum+1)
           else if json.JSONType = TJSONtype.jtObject then
             lua_setfield(luaState, -2, PChar(enum.key));
 
@@ -94,7 +89,7 @@ implementation
           lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
 
           if json.JSONType = TJSONtype.jtArray then
-            lua_rawgeti(luaState, -1, enum.KeyNum)
+            lua_rawgeti(luaState, -1, enum.KeyNum+1)
           else if json.JSONType = TJSONtype.jtObject then
             lua_getfield(luaState, -1, PChar(enum.key));
 
@@ -119,7 +114,7 @@ implementation
     lua_rawgeti(L, LUA_REGISTRYINDEX, self.handlerRef);
     lua_insert(L, -2);
     if lua_pcall(L, 1, 0, 0) <> 0 then
-      writeln('Error while running command: ', lua_tostring(L, -1));
+      logWrite('Error while running command: '+lua_tostring(L, -1));
   end;
 
   procedure TLuaHandler.handler(msg: TJSONObject);
@@ -135,7 +130,7 @@ implementation
     lua_rawgeti(L, LUA_REGISTRYINDEX, self.handlerRef);
     lua_insert(L, -2);
     if lua_pcall(L, 1, 0, 0) <> 0 then
-      writeln('Error while running handler "'+self.name+'": ', lua_tostring(L, -1));
+      logWrite('Error while running handler "'+self.name+'": '+lua_tostring(L, -1));
   end;
 
   function registerHandlerLua(L: Plua_State = nil): Longint; cdecl;
@@ -148,7 +143,7 @@ implementation
     handler.name := luaL_checkstring(L, 1);
     if handler.name = 'main' then
     begin
-      writeln('registerHandler() error: "main" is reserved handler name!');
+      logWrite('registerHandler() error: "main" is reserved handler name!');
       exit(0);
     end;
 
@@ -263,20 +258,23 @@ implementation
     method := lua_tostring(L, 1);
     setLength(parameters, 0);
 
-    lua_pushnil(L);  // first key
-    while lua_next(L, 2) <> 0 do
+    if lua_gettop(L) >= 2 then
     begin
-      // uses 'key' (at index -2) and 'value' (at index -1)
-      setLength(parameters, length(parameters)+1);
-      parameters[high(parameters)] := lua_tostring(L, -2);
+      lua_pushnil(L);  // first key
+      while lua_next(L, 2) <> 0 do
+      begin
+        // uses 'key' (at index -2) and 'value' (at index -1)
+        setLength(parameters, length(parameters)+1);
+        parameters[high(parameters)] := lua_tostring(L, -2);
 
-      setLength(parameters, length(parameters)+1);
-      parameters[high(parameters)] := lua_tostring(L, -1);
-      //removes 'value'; keeps 'key' for next iteration
-      //lua_pushstring(L, parameters[high(parameters)-1]);
+        setLength(parameters, length(parameters)+1);
+        parameters[high(parameters)] := lua_tostring(L, -1);
+        //removes 'value'; keeps 'key' for next iteration
+        //lua_pushstring(L, parameters[high(parameters)-1]);
+        lua_pop(L, 1);
+      end;
       lua_pop(L, 1);
     end;
-    lua_pop(L, 1);
 
     response := callVkApi(method, parameters);
 
@@ -286,30 +284,87 @@ implementation
     result := 1;
   end;
 
+  function getLua(L: Plua_State = nil): Longint; cdecl;
+  var
+    url: String;
+    resp: TResponse;
+  begin
+    url := lua_tostring(L, 1);
+
+    resp := get(url);
+
+    lua_newtable(L);
+    lua_pushinteger(L, resp.code);
+    lua_setfield(L, -2, 'code');
+    lua_pushstring(L, resp.text);
+    lua_setfield(L, -2, 'text');
+    lua_pushlstring(L, PChar(resp.data), length(resp.data));
+    lua_setfield(L, -2, 'data');
+
+    exit(1);
+  end;
+
+  function postLua(L: Plua_State = nil): Longint; cdecl;
+  begin
+
+  end;
+
+  function logWriteLua(L: Plua_State = nil): Longint; cdecl;
+  var
+    str, logTypeStr: String;
+    logType: TLogType;
+  begin
+    str := lua_tostring(L, 1);
+    logTypeStr := lua_tostring(L, 2);
+
+    case logTypeStr of
+      'normal': logType := TLogType.logNormal;
+      'good': logType := TLogType.logGood;
+      'error': logType := TLogType.logError;
+      'warning': logType := TLogType.logWarning;
+      else logType := TLogType.logNormal;
+    end;
+
+    logWrite(str, logType);
+
+    result := 0;
+  end;
+
   procedure luaLoadPlugins();
   var
-    fileSearchResult: TSearchRec;
+    fSearchRes: TSearchRec;
+    pluginName: String;
   begin
-    if findFirst('./plugins/*.lua', faAnyFile, fileSearchResult) = 0 then
+    logWrite('Create lua context...');
+    initCriticalSection(mainLuaMutex);
+    mainLuaState := luaL_newstate();
+
+    luaL_openlibs(mainLuaState);
+    //создание стандартных функций
+    lua_register(mainLuaState, 'reg_handler', @registerHandlerLua);
+    lua_register(mainLuaState, 'reg_command', @registerCommandLua);
+    lua_register(mainLuaState, 'change_handler', @changeHandlerLua);
+    lua_register(mainLuaState, 'dbexec_in', @dbExecInLua);
+    lua_register(mainLuaState, 'dbexec_out', @dbExecOutLua);
+    lua_register(mainLuaState, 'vkapi', @callVkApiLua);
+    lua_register(mainLuaState, 'net_get', @getLua);
+    lua_register(mainLuaState, 'log_write', @logWriteLua);
+    //создание стандартных переменных
+    lua_newtable(mainLuaState);
+    JSONtoTable(mainLuaState, config);
+    lua_setglobal(mainLuaState, 'config');
+
+    logWrite('Lua context created');
+
+    if findFirst('./plugins/*.lua', faAnyFile, fSearchRes) = 0 then
       repeat
+        pluginName := copy(fSearchRes.name, 0, length(fSearchRes.name)-4);
+        logWrite('Loading and initilizing lua plugin: '+pluginName);
 
-        luaL_openlibs(mainLuaState);
-        //создание стандартных функций
-        lua_register(mainLuaState, 'reg_handler', @registerHandlerLua);
-        lua_register(mainLuaState, 'reg_command', @registerCommandLua);
-        lua_register(mainLuaState, 'change_handler', @changeHandlerLua);
-        lua_register(mainLuaState, 'dbexec_in', @dbExecInLua);
-        lua_register(mainLuaState, 'dbexec_out', @dbExecOutLua);
-        lua_register(mainLuaState, 'vkapi', @callVkApiLua);
-        //создание стандартных переменных
-        lua_newtable(mainLuaState);
-        JSONtoTable(mainLuaState, config);
-        lua_setglobal(mainLuaState, 'config');
-
-        if lua_dofile(mainLuaState, PChar('./plugins/'+fileSearchResult.name)) <> 0 then
-          writeln('Error while loading plugin "', fileSearchResult.name, '": ', lua_tostring(mainLuaState, -1));;
-      until findNext(fileSearchResult) <> 0;
-    findClose(fileSearchResult);
+        if lua_dofile(mainLuaState, PChar('./plugins/'+fSearchRes.name)) <> 0 then
+          logWrite('Error while loading plugin "'+ fSearchRes.name+ '": '+ lua_tostring(mainLuaState, -1));;
+      until findNext(fSearchRes) <> 0;
+    findClose(fSearchRes);
   end;
 
   procedure luaGetPath(pathString: String);
@@ -340,10 +395,5 @@ implementation
         lua_pop(mainLuaState, 1);  { remove number }
       end;
   end;
-
-
-begin
-  initCriticalSection(mainLuaMutex);
-  mainLuaState := luaL_newstate();
 end.
 

@@ -6,7 +6,8 @@ end
 
 reg_handler('first', handler)
 
-print('соси хзуй')
+--print(inspect(vkapi('groups.getTokenPermissions')))
+--log_write('zhozh')
 
 cmd = {}
 cmd['keywords']={'ror', 'pop'}
@@ -17,3 +18,5 @@ function cmd.handler(msg)
 end
 
 reg_command(cmd)
+
+--print(net_get('http://example.com/').text)

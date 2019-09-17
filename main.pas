@@ -5,7 +5,7 @@ program KBot6;
 
 uses
   {$ifdef unix}cthreads,{$endif} fpjson, sysutils,
-  Net, Utils, VKAPI, Commands, Database, LuaPlugins{, PythonPlugins};
+  Net, Utils, VKAPI, Commands, Database, LuaPlugins, PythonPlugins;
 
 
 var
@@ -16,13 +16,17 @@ var
 
 begin
   writeLn('KBot6 Unified by Augmeneco');
+  logWrite('Initilizing...');
 
   if not directoryExists('./plugins/') then
     createDir('./plugins/');
 
   luaLoadPlugins();
+  pythonLoadPlugins();
 
   lpInfo := callVkApi('groups.getLongPollServer', ['group_id', IntToStr(158856938)]);
+  logWrite('New longpoll info received');
+  logWrite('KBot6 ready for work');
   while true do
   begin
     response := get(format('%s?act=a_check&key=%s&ts=%s&wait=25', [lpInfo['server'].asString,
@@ -32,6 +36,7 @@ begin
     if lpResponse.indexOfName('failed') <> -1 then
     begin
       lpInfo := callVkApi('groups.getLongPollServer', ['group_id', intToStr(158856938)]);
+      logWrite('New longpoll info received');
       continue;
     end;
     lpInfo.strings['ts'] := lpResponse['ts'].asString;
@@ -47,7 +52,7 @@ begin
           commandsHandler(msg)
         except
           on E: Exception do
-            writeLn('Произошла ошибка: '+E.ToString());
+            logWrite('Произошла ошибка: '+E.ToString());
         end;
       end;
     end;

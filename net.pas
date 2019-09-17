@@ -9,6 +9,7 @@ interface
     end;
 
   function get(url: String): TResponse;
+  function post(url: String): TResponse;
 
 
 implementation
@@ -25,25 +26,53 @@ implementation
 
   function get(url: String): TResponse;
   var
-    ss: TStringStream;
+    bs: TBytesStream;
     resp: TResponse;
     hCurl: PCURL;
   begin
     hCurl := curl_easy_init();
-    ss:=TStringStream.Create('');
+    bs := TBytesStream.Create();
     if assigned(hCurl) then
     begin
       curl_easy_setopt(hCurl, CURLOPT_VERBOSE, [True]);
       curl_easy_setopt(hCurl, CURLOPT_URL, [PChar(url)]);
-      curl_easy_setopt(hCurl, CURLOPT_WRITEDATA, [Pointer(ss)]);
+      curl_easy_setopt(hCurl, CURLOPT_WRITEDATA, [Pointer(bs)]);
       curl_easy_setopt(hCurl, CURLOPT_VERBOSE, [0]);
       curl_easy_setopt(hCurl, CURLOPT_WRITEFUNCTION, [@writeFunction]);
       resp.code := SmallInt(curl_easy_perform(hCurl));
-      curl_easy_cleanup(hCurl);
-      resp.text := ss.DataString;
+      resp.text := String(bs.Bytes);
+      resp.data := bs.Bytes;
     end;
-    ss.Free;
+    curl_easy_cleanup(hCurl);
+    bs.Free;
+
     get := resp;
+  end;
+
+  function post(url: String): TResponse;
+  var
+    bs: TBytesStream;
+    resp: TResponse;
+    hCurl: PCURL;
+  begin
+    hCurl := curl_easy_init();
+    bs := TBytesStream.Create();
+    if assigned(hCurl) then
+    begin
+      curl_easy_setopt(hCurl, CURLOPT_VERBOSE, [True]);
+      curl_easy_setopt(hCurl, CURLOPT_POST, [1]);
+      curl_easy_setopt(hCurl, CURLOPT_URL, [PChar(url)]);
+      curl_easy_setopt(hCurl, CURLOPT_WRITEDATA, [Pointer(bs)]);
+      curl_easy_setopt(hCurl, CURLOPT_VERBOSE, [0]);
+      curl_easy_setopt(hCurl, CURLOPT_WRITEFUNCTION, [@writeFunction]);
+      resp.code := SmallInt(curl_easy_perform(hCurl));
+      resp.text := String(bs.Bytes);
+      resp.data := bs.Bytes;
+    end;
+    curl_easy_cleanup(hCurl);
+    bs.Free;
+
+    post := resp;
   end;
 
 end.
