@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="11"/>
-    <BuildModes Count="1" Active="Release">
+    <BuildModes Count="1" Active="Debug">
       <Item1 Name="Release">
         <CompilerOptions>
           <Version Value="11"/>
@@ -39,17 +39,19 @@
         </CompilerOptions>
       </Item1>
     </BuildModes>
-    <Units Count="32">
+    <Units Count="34">
       <Unit0>
         <Filename Value="main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="KBot6"/>
-        <TopLine Value="34"/>
-        <CursorPos X="39" Y="55"/>
-        <IsLocked Value="True"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="1"/>
+        <CursorPos Y="17"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
-          <EditorIndex Value="-1"/>
+          <TopLine Value="25"/>
+          <CursorPos X="39" Y="55"/>
+          <IsLocked Value="True"/>
         </ExtraEditor1>
         <UsageCount Value="290"/>
         <Loaded Value="True"/>
@@ -58,7 +60,7 @@
         <Filename Value="net.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Net"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="1"/>
         <TopLine Value="54"/>
         <CursorPos X="46" Y="63"/>
@@ -84,7 +86,6 @@
         <Filename Value="luaplugins.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="LuaPlugins"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="28"/>
         <CursorPos X="52" Y="43"/>
@@ -103,8 +104,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Commands"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="151"/>
-        <CursorPos X="18" Y="155"/>
+        <TopLine Value="88"/>
+        <CursorPos X="11" Y="124"/>
         <IsLocked Value="True"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
@@ -120,7 +121,7 @@
         <Filename Value="utils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Utils"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="15"/>
         <CursorPos X="16" Y="29"/>
         <IsLocked Value="True"/>
@@ -144,19 +145,20 @@
         <Filename Value="pythonplugins.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PythonPlugins"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="201"/>
-        <CursorPos Y="210"/>
+        <TopLine Value="253"/>
+        <CursorPos X="23" Y="273"/>
         <IsLocked Value="True"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
           <IsVisibleTab Value="True"/>
           <EditorIndex Value="4"/>
           <WindowIndex Value="1"/>
-          <TopLine Value="109"/>
-          <CursorPos X="44" Y="119"/>
+          <TopLine Value="283"/>
+          <CursorPos Y="292"/>
         </ExtraEditor1>
-        <UsageCount Value="166"/>
+        <UsageCount Value="170"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
@@ -246,7 +248,7 @@
         <WindowIndex Value="1"/>
         <TopLine Value="385"/>
         <CursorPos X="3" Y="393"/>
-        <UsageCount Value="38"/>
+        <UsageCount Value="40"/>
         <Loaded Value="True"/>
       </Unit16>
       <Unit17>
@@ -273,15 +275,15 @@
         <Filename Value="lib/python4delphi/PythonEngine.pas"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="6410"/>
-        <CursorPos Y="6421"/>
+        <TopLine Value="1521"/>
+        <CursorPos X="14" Y="1534"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
           <EditorIndex Value="-1"/>
           <TopLine Value="5069"/>
           <CursorPos X="22" Y="5081"/>
         </ExtraEditor1>
-        <UsageCount Value="62"/>
+        <UsageCount Value="64"/>
         <Loaded Value="True"/>
       </Unit20>
       <Unit21>
@@ -336,7 +338,7 @@
         <WindowIndex Value="1"/>
         <TopLine Value="131"/>
         <CursorPos X="10" Y="140"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
       </Unit28>
       <Unit29>
@@ -344,7 +346,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="56"/>
         <CursorPos X="20" Y="70"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit29>
       <Unit30>
         <Filename Value="../pypas/pypasweakrefobject.pas"/>
@@ -359,127 +361,143 @@
         <CursorPos X="59" Y="855"/>
         <UsageCount Value="9"/>
       </Unit31>
+      <Unit32>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/packages/regexpr/src/regex.pp"/>
+        <UnitName Value="Regex"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="247"/>
+        <UsageCount Value="10"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/packages/regexpr/src/regexpr.pas"/>
+        <UnitName Value="RegExpr"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="428"/>
+        <CursorPos X="14" Y="441"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit33>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="213" TopLine="192"/>
+        <Caret Line="277" TopLine="265"/>
       </Position1>
       <Position2>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="209" TopLine="192"/>
+        <Caret Line="278" TopLine="265"/>
       </Position2>
       <Position3>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="210" TopLine="192"/>
+        <Caret Line="280" Column="32" TopLine="265"/>
       </Position3>
       <Position4>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="211" TopLine="192"/>
+        <Caret Line="274" TopLine="265"/>
       </Position4>
       <Position5>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="213" Column="37" TopLine="202"/>
+        <Caret Line="275" TopLine="265"/>
       </Position5>
       <Position6>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="210" TopLine="202"/>
+        <Caret Line="276" TopLine="265"/>
       </Position6>
       <Position7>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="211" TopLine="202"/>
+        <Caret Line="277" TopLine="265"/>
       </Position7>
       <Position8>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="212" TopLine="202"/>
+        <Caret Line="278" TopLine="265"/>
       </Position8>
       <Position9>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="213" TopLine="202"/>
+        <Caret Line="280" TopLine="265"/>
       </Position9>
       <Position10>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="215" Column="48" TopLine="201"/>
+        <Caret Line="273" Column="29" TopLine="265"/>
       </Position10>
       <Position11>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="210" TopLine="201"/>
+        <Caret Line="272" Column="55" TopLine="265"/>
       </Position11>
       <Position12>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="211" TopLine="201"/>
+        <Caret Line="273" TopLine="265"/>
       </Position12>
       <Position13>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="212" TopLine="201"/>
+        <Caret Line="270" Column="16" TopLine="253"/>
       </Position13>
       <Position14>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="213" TopLine="201"/>
+        <Caret Line="273" Column="44" TopLine="253"/>
       </Position14>
       <Position15>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="214" TopLine="201"/>
+        <Caret Line="265" Column="28" TopLine="252"/>
       </Position15>
       <Position16>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="215" TopLine="201"/>
+        <Caret Line="272" TopLine="258"/>
       </Position16>
       <Position17>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="223" TopLine="201"/>
+        <Caret Line="273" Column="79" TopLine="263"/>
       </Position17>
       <Position18>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="225" TopLine="201"/>
+        <Caret Line="272" TopLine="263"/>
       </Position18>
       <Position19>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="226" TopLine="201"/>
+        <Caret Line="273" TopLine="263"/>
       </Position19>
       <Position20>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="227" TopLine="201"/>
+        <Caret Line="276" TopLine="263"/>
       </Position20>
       <Position21>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="210" TopLine="201"/>
+        <Caret Line="277" TopLine="263"/>
       </Position21>
       <Position22>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="211" TopLine="201"/>
+        <Caret Line="278" TopLine="263"/>
       </Position22>
       <Position23>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="212" TopLine="201"/>
+        <Caret Line="279" TopLine="263"/>
       </Position23>
       <Position24>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="213" TopLine="201"/>
+        <Caret Line="280" TopLine="263"/>
       </Position24>
       <Position25>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="214" TopLine="201"/>
+        <Caret Line="281" TopLine="263"/>
       </Position25>
       <Position26>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="215" TopLine="201"/>
+        <Caret Line="282" TopLine="263"/>
       </Position26>
       <Position27>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="223" TopLine="201"/>
+        <Caret Line="283" TopLine="263"/>
       </Position27>
       <Position28>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="225" TopLine="201"/>
+        <Caret Line="284" TopLine="263"/>
       </Position28>
       <Position29>
         <Filename Value="pythonplugins.pas"/>
-        <Caret Line="226" TopLine="201"/>
+        <Caret Line="285" TopLine="263"/>
       </Position29>
       <Position30>
-        <Filename Value="luaplugins.pas"/>
-        <Caret Line="73" Column="50" TopLine="62"/>
+        <Filename Value="pythonplugins.pas"/>
+        <Caret Line="288" TopLine="263"/>
       </Position30>
     </JumpHistory>
     <RunParams>
@@ -488,16 +506,13 @@
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <Watches Count="3">
+    <Watches Count="2">
       <Item1>
-        <Expression Value="_ucs4Str"/>
+        <Expression Value="ldConfOutput"/>
       </Item1>
       <Item2>
-        <Expression Value="PyUnicode_FromWideChar"/>
+        <Expression Value="regex.match[1]"/>
       </Item2>
-      <Item3>
-        <Expression Value="logTypeStrP"/>
-      </Item3>
     </Watches>
   </Debugging>
 </CONFIG>

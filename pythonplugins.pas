@@ -7,7 +7,7 @@ interface
 
 implementation
     uses
-      sysutils, dynlibs, fpjson,
+      sysutils, dynlibs, fpjson, process,
       PythonEngine,
       Commands, Utils, Database, VKAPI;
 
@@ -262,11 +262,15 @@ implementation
       fSearchRes: TSearchRec;
       pName, pModule: PPyObject;
       pluginName: String;
+      ldConfOutput: String;
     begin
       logWrite('Create python instance...');
       py := TPythonEngine.Create(Nil);
+
       py.DllName := 'libpython3.7m.so';
-      py.DllPath := '/usr/lib/x86_64-linux-gnu/';
+      runCommand('find /usr/lib -name '+py.DllName, ldConfOutput);
+      py.DllPath := ldConfOutput.split(LineEnding)[0].replace(py.DllName, '');
+      logWrite('Load python library "'+py.DllName+'" from "'+py.DllPath+'"');
 
       // создание модуля kb и создание его функций
       module:= TPythonModule.Create(nil);
