@@ -35,6 +35,8 @@ implementation
       else if json.JSONType = TJSONtype.jtArray then
         obj := py.PyList_New(0);
 
+      result := obj;
+
       for enum in json do
       begin
         case enum.value.JSONType of
@@ -67,8 +69,6 @@ implementation
           py.PyDict_SetItemString(obj, PChar(enum.key), childObj)
         else if json.JSONType = TJSONtype.jtArray then
           py.PyList_Append(obj, childObj);
-
-        result := obj;
       end;
     end;
 
@@ -77,7 +77,8 @@ implementation
       arglist: PPyObject;
     begin
       arglist := py.Py_BuildValue('(O)', JSONtoPyObj(msg));
-      py.PyObject_CallObject(self.handlerObj, arglist);
+      if py.PyObject_CallObject(self.handlerObj, arglist) = nil then
+        py.PyErr_Print();
       py.Py_DECREF(arglist);
     end;
 
@@ -86,7 +87,8 @@ implementation
       arglist: PPyObject;
     begin
       arglist := py.Py_BuildValue('(O)', JSONtoPyObj(msg));
-      py.PyObject_CallObject(self.handlerObj, arglist);
+      if py.PyObject_CallObject(self.handlerObj, arglist) = nil then
+        py.PyErr_Print();
       py.Py_DECREF(arglist);
     end;
 
@@ -106,6 +108,10 @@ implementation
         hndlr.handlerObj := handlerObj;
         py.Py_INCREF(hndlr.handlerObj);
 
+        //add critical sections!!!!!!!!
+        setLength(handlers, length(handlers)+1);
+        handlers[high(handlers)] := hndlr;
+
         Result := py.Py_None;
         py.Py_IncRef(Result);
     end;
@@ -118,7 +124,9 @@ implementation
       i: Integer;
     begin
       cmd := TPythonCommand.Create();
-      py.PyArg_ParseTuple(args, 'O', cmdObj);
+      py.PyArg_ParseTuple(args, 'O', @cmdObj);
+
+      py.PyObjectAsString(cmdObj);
 
       levelObj := py.PyObject_GetAttrString(cmdObj, 'level');
       cmd.level := py.PyLong_AsLongLong(levelObj);
@@ -133,6 +141,10 @@ implementation
 
       cmd.handlerObj := py.PyObject_GetAttrString(cmdObj, 'handler');
       py.Py_INCREF(cmd.handlerObj);
+
+      // ADD CRITICAL SECTIONS!!!!!!!
+      setLength(commandsArray, length(commandsArray)+1);
+      commandsArray[high(commandsArray)] := cmd;
 
       Result := py.Py_None;
       py.Py_IncRef(Result);
