@@ -98,15 +98,19 @@ implementation
       hndlr: TPythonHandler;
     begin
         py.PyArg_ParseTuple(args, 's#O', @nameP, @nameLen, @handlerObj);
+        writeln('1');
 
         setLength(hndlr.name, nameLen);
         hndlr.name := nameP;
+        writeln('2');
 
         hndlr.handlerObj := handlerObj;
         py.Py_INCREF(hndlr.handlerObj);
+        writeln('3');
 
         Result := py.Py_None;
         py.Py_IncRef(Result);
+        writeln('4');
     end;
 
     function registerCommandPython(self, args: PPyObject) : PPyObject; cdecl;
