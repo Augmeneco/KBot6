@@ -1,11 +1,12 @@
 import kb
+
 def f():
 	pass
 kb.reg_handler('first1', f)
 
 class SuperCmd:
 	level = 1
-	keywords = ['tot']
+	keywords = ['йцй']
 	def handler(self, msg):
 		print(msg)
 

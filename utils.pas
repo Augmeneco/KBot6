@@ -11,7 +11,7 @@ interface
   var
     config: TJSONObject;
 
-  procedure logWrite(str: UnicodeString; logType: TLogType=TLogType.logNormal);
+  procedure logWrite(str: String; logType: TLogType=TLogType.logNormal);
 
 
 implementation
@@ -21,16 +21,37 @@ implementation
   var
     configFile: TextFile;
     configText, buffer: String;
+    enableColors: Boolean = True;
+    i: Integer;
 
-  procedure logWrite(str: UnicodeString; logType: TLogType=TLogType.logNormal);
+  procedure logWrite(str: String; logType: TLogType=TLogType.logNormal);
   var
     logTime: TDateTime;
   begin
     logTime := now();
+    //if enableColors then
+    //  case logType of
+    //    TLogType.logNormal:
+    //      textColor(LightGray);
+    //    TLogType.logGood:
+    //      textColor(Green);
+    //    TLogType.logError:
+    //      textColor(Red);
+    //    TLogType.logWarning:
+    //      textColor(Yellow);
+    //  end;
     writeln(formatDateTime('[dd/mm/yy hh:nn:ss"."zzz]', logTime), ' ', str);
+    //if enableColors then
+    //  textColor(LightGray);
   end;
 
 begin
+  for i := 0 to ParamCount() do
+    case ParamStr(i) of
+      '--colorless':
+        enableColors := False;
+    end;
+
   if not fileExists('./bot.cfg') then
   begin
     writeLn('ERROR: Config "bot.cfg" not exist!');
@@ -38,6 +59,7 @@ begin
   end;
 
   assignFile(configFile, './bot.cfg');
+  configText := '';
   try
     reset(configFile);
     while not eof(configFile) do

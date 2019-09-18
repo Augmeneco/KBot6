@@ -8,7 +8,7 @@ interface
 
 implementation
   uses
-    fpjson, lua, lualib, lauxlib, fgl, sysutils,
+    fpjson, lua, lualib, lauxlib, sysutils,
     Commands, Database, VKAPI, Utils, Net;
 
   type
@@ -294,7 +294,7 @@ implementation
     resp := get(url);
 
     lua_newtable(L);
-    lua_pushinteger(L, resp.code);
+    lua_pushinteger(L, Int64(resp.code));
     lua_setfield(L, -2, 'code');
     lua_pushstring(L, resp.text);
     lua_setfield(L, -2, 'text');
@@ -362,7 +362,7 @@ implementation
         logWrite('Loading and initilizing lua plugin: '+pluginName);
 
         if lua_dofile(mainLuaState, PChar('./plugins/'+fSearchRes.name)) <> 0 then
-          logWrite('Error while loading plugin "'+ fSearchRes.name+ '": '+ lua_tostring(mainLuaState, -1));;
+          logWrite('Error while loading plugin "'+ fSearchRes.name+ '": '+ lua_tostring(mainLuaState, -1), logError);;
       until findNext(fSearchRes) <> 0;
     findClose(fSearchRes);
   end;

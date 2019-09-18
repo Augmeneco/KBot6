@@ -13,7 +13,7 @@ interface
     end;
     TCommand = class (THandler)
       public
-        keywords: Array of UnicodeString;
+        keywords: Array of String;
         level: Byte;
         //procedure handler(msg: TJSONObject); virtual;
     end;
@@ -62,7 +62,7 @@ implementation
     dbResponse: TJSONArray;
     found: Boolean;
     enum: TJSONEnum;
-    cmdName: UnicodeString;
+    cmdName: String;
     pack: PTPack;
   begin
     if (msg['peer_id'].asInteger > 0) and (msg['peer_id'].asInteger < 2000000000) then
@@ -107,7 +107,7 @@ implementation
 
     found := false;
     for enum in config.arrays['names'] do
-      if enum.value.asString = textWithoutSlash.split(' ')[0] then
+      if 0=CompareStr(enum.value.asString, UTF8String(textWithoutSlash.split(' ')[0])) then
       begin
         found := true;
         break;
@@ -154,11 +154,13 @@ implementation
         exit;
     regex.free();
 
+    logWrite('You got mail', TLogType.logGood);
+
     for cmd in commandsArray do
     begin
       found := false;
       for cmdName in cmd.keywords do
-        if msg.strings['command'] = cmdName then
+        if 0=CompareStr(msg['command'].asString, cmdName) then
         begin
           found := true;
           break;

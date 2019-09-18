@@ -20,6 +20,7 @@
       <Language Value="0419"/>
       <CharSet Value="04B0"/>
       <Attributes pvaPrivateBuild="True"/>
+      <StringTable CompanyName="Augmeneco" ProductName="KBot6"/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Debug" Default="True"/>

@@ -4,7 +4,7 @@ unit VKAPI;
 interface
 
   uses
-    fpjson, jsonparser, sysutils,
+    fpjson, jsonparser, sysutils, libcurl,
     Net, Utils;
 
   function callVkApi(method: AnsiString; parameters: Array of AnsiString): TJSONObject;
@@ -61,13 +61,15 @@ implementation
                            [method,
                             config.strings['group_token'],
                             paramsString]));
-
+    //if response.code = CURLE_OK then
+    //begin
     json := TJSONObject(getJSON(response.text));
     if json.indexOfName('error') <> -1 then
       writeln(format('VK ERROR #%s: "%s"'#13#10'PARAMS: %s', [json.getPath('error.error_code').asInteger,
                                                               json.getPath('error.error_msg').asString,
                                                               json.getPath('error.request_params').asJSON]));
-    callVkApi := json.get('response', TJSONObject.create());
+    result := json.get('response', TJSONObject.create());
+
   end;
 
   procedure sendMsg(peer_id: Integer; text: String);

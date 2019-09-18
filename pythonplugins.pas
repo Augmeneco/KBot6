@@ -7,7 +7,7 @@ interface
 
 implementation
     uses
-      sysutils, dynlibs, fpjson, process,
+      sysutils, fpjson, process,
       PythonEngine,
       Commands, Utils, Database, VKAPI;
 
@@ -118,7 +118,7 @@ implementation
 
     function registerCommandPython(self, args: PPyObject) : PPyObject; cdecl;
     var
-      cmdObj, levelObj, kwObj, handlerObj: PPyObject;
+      cmdObj, levelObj, kwObj: PPyObject;
       cmd: TPythonCommand;
       keywordObj: PPyObject;
       i: Integer;
@@ -136,7 +136,7 @@ implementation
       begin
         setLength(cmd.keywords, length(cmd.keywords)+1);
         keywordObj := py.PyList_GetItem(kwObj, i);
-        cmd.keywords[high(cmd.keywords)] := py.PyUnicode_AsWideString(keywordObj);
+        cmd.keywords[high(cmd.keywords)] := UTF8Encode(py.PyUnicode_AsWideString(keywordObj));
       end;
 
       cmd.handlerObj := py.PyObject_GetAttrString(cmdObj, 'handler');
@@ -221,6 +221,7 @@ implementation
       response: TJSONObject;
     begin
         parametersObj := nil;
+        setLength(parameters, 0);
         py.PyArg_ParseTuple(args, 's#|O', @methodP, @methodLen, @parametersObj);
         setLength(method, methodLen);
         method := methodP;
@@ -230,8 +231,8 @@ implementation
           while Boolean(py.PyDict_Next(parametersObj, idx, key, value)) do
           begin
             setLength(parameters, length(parameters)+2);
-            parameters[high(parameters)-1] := py.PyUnicode_AsWideString(key^);
-            parameters[high(parameters)] := py.PyUnicode_AsWideString(value^);
+            parameters[high(parameters)-1] := UTF8Encode(py.PyUnicode_AsWideString(key^));
+            parameters[high(parameters)] := UTF8Encode(py.PyUnicode_AsWideString(value^));
           end;
 
         response := callVkApi(method, parameters);
@@ -284,7 +285,7 @@ implementation
       py.DllName := 'libpython3.7m.so';
       runCommand('find /usr/lib -name '+py.DllName, ldConfOutput);
       py.DllPath := ldConfOutput.split(LineEnding)[0].replace(py.DllName, '');
-      logWrite('Load python library "'+py.DllName+'" from "'+py.DllPath+'"');
+      logWrite('Loading python library: "'+py.DllPath+py.DllName+'"');
 
       // создание модуля kb и создание его функций
       module:= TPythonModule.Create(nil);
@@ -321,7 +322,6 @@ implementation
             py.PyErr_Print();
             halt();
           end;
-          //py.PyImport_ExecCodeModule(pluginName, pModule);
         until findNext(fSearchRes) <> 0;
       findClose(fSearchRes);
     end;
