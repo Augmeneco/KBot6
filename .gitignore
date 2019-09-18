@@ -3,6 +3,7 @@
 /compunits
 /liblua.a
 **/*.res
+kbot6.lps
 **/*.o.*
 **/*.a.*
 **/*.so.*
