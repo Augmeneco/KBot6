@@ -151,10 +151,17 @@ implementation
           msg.add('argument', '');
       end
       else
+      begin
+        regex.free();
         exit;
+      end;
     regex.free();
 
-    logWrite('You got mail', TLogType.logGood);
+    logWrite(format('Bot mentioned by id%d in %d. Info { Text: "%s", AttachCount: %d }',
+             [msg.integers['from_id'],
+              msg.integers['peer_id'],
+              msg.strings['text'],
+              msg.arrays['attachments'].count]));
 
     for cmd in commandsArray do
     begin

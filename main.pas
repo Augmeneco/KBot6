@@ -26,7 +26,7 @@ begin
 
   lpInfo := callVkApi('groups.getLongPollServer', ['group_id', config['group_id'].AsString]);
   logWrite('New longpoll info received');
-  logWrite('KBot6 ready for work');
+  logWrite('KBot6 ready to work');
   while true do
   begin
     response := get(format('%s?act=a_check&key=%s&ts=%s&wait=25', [lpInfo['server'].asString,
