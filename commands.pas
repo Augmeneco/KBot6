@@ -88,11 +88,16 @@ implementation
     end;
 
     for handler in handlers do
-    if handler.name = dbResponse.objects[0].strings['handler'] then
-    begin
-      handler.handler(msg);
-      exit;
-    end;
+      if handler.name = dbResponse.objects[0].strings['handler'] then
+      begin
+        //logWrite(format('Bot mentioned by id%d in %d. Info { Text: "%s", AttachCount: %d }',
+        //                [msg.integers['from_id'],
+        //                 msg.integers['peer_id'],
+        //                 msg.strings['text'],
+        //                 msg.arrays['attachments'].count]));
+        handler.handler(msg);
+        exit;
+      end;
 
     textWithoutSlash := msg.strings['text'];
     if length(msg.strings['text']) <> 0 then
@@ -158,10 +163,10 @@ implementation
     regex.free();
 
     logWrite(format('Bot mentioned by id%d in %d. Info { Text: "%s", AttachCount: %d }',
-             [msg.integers['from_id'],
-              msg.integers['peer_id'],
-              msg.strings['text'],
-              msg.arrays['attachments'].count]));
+                    [msg.integers['from_id'],
+                     msg.integers['peer_id'],
+                     msg.strings['text'],
+                     msg.arrays['attachments'].count]));
 
     for cmd in commandsArray do
     begin
