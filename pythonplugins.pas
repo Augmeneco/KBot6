@@ -136,7 +136,7 @@ implementation
       begin
         setLength(cmd.keywords, length(cmd.keywords)+1);
         keywordObj := py.PyList_GetItem(kwObj, i);
-        cmd.keywords[high(cmd.keywords)] := UTF8Encode(py.PyUnicode_AsWideString(keywordObj));
+        cmd.keywords[high(cmd.keywords)] := UTF8Encode(py.PyUnicode_AsWideString(py.PyObject_Str(keywordObj)));
       end;
 
       cmd.handlerObj := py.PyObject_GetAttrString(cmdObj, 'handler');
@@ -216,8 +216,9 @@ implementation
       methodLen: Integer;
       parametersObj: PPyObject;
       parameters: Array of String;
-      key, value: PPPyObject;
+      key, value: PPyObject;
       idx: PNativeInt;
+      idx2: Int64 = 0;
       response: TJSONObject;
     begin
         parametersObj := nil;
@@ -228,12 +229,15 @@ implementation
         if (parametersObj <> nil) and
            py.PyDict_Check(parametersObj) and
            (py.PyDict_Size(parametersObj) <> 0) then
-          while Boolean(py.PyDict_Next(parametersObj, idx, key, value)) do
+        begin
+          idx := @idx2;
+          while Boolean(py.PyDict_Next(parametersObj, idx, @key, @value)) do
           begin
             setLength(parameters, length(parameters)+2);
-            parameters[high(parameters)-1] := UTF8Encode(py.PyUnicode_AsWideString(key^));
-            parameters[high(parameters)] := UTF8Encode(py.PyUnicode_AsWideString(value^));
+            parameters[high(parameters)-1] := UTF8Encode(py.PyUnicode_AsWideString(py.PyObject_Str(key)));
+            parameters[high(parameters)] := UTF8Encode(py.PyUnicode_AsWideString(py.PyObject_Str(value)));
           end;
+        end;
 
         response := callVkApi(method, parameters);
 
