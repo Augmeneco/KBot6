@@ -17,7 +17,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
-      <BuildNr Value="1"/>
+      <BuildNr Value="2"/>
       <Language Value="0419"/>
       <CharSet Value="04B0"/>
       <Attributes pvaPrivateBuild="True"/>
@@ -84,7 +84,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="lib/python4delphi"/>
+      <OtherUnitFiles Value="lib/python4delphi;lib/lua53"/>
       <UnitOutputDirectory Value="compunits/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
