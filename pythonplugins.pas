@@ -219,7 +219,7 @@ implementation
       key, value: PPyObject;
       idx: PNativeInt;
       idx2: Int64 = 0;
-      response: TJSONObject;
+      response: TJSONData;
     begin
         parametersObj := nil;
         setLength(parameters, 0);

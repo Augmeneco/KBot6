@@ -253,7 +253,7 @@ implementation
   var
     method: String;
     parameters: Array of String;
-    response: TJSONObject;
+    response: TJSONData;
   begin
     method := lua_tostring(L, 1);
     setLength(parameters, 0);

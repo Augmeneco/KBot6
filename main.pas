@@ -10,7 +10,7 @@ uses
 
 var
   response: TResponse;
-  lpResponse, lpInfo: TJSONObject;
+  lpInfo, lpResponse: TJSONObject;
   msg: TJSONObject;
   lpUpdate: TJSONEnum;
 
@@ -24,7 +24,7 @@ begin
   luaLoadPlugins();
   pythonLoadPlugins();
 
-  lpInfo := callVkApi('groups.getLongPollServer', ['group_id', config['group_id'].AsString]);
+  lpInfo := TJSONObject(callVkApi('groups.getLongPollServer', ['group_id', config['group_id'].AsString]));
   logWrite('New longpoll info received');
   logWrite('KBot6 ready to work');
   while true do
@@ -34,14 +34,14 @@ begin
                                                                    lpInfo['ts'].asString]));
     if response.code = CURLE_OPERATION_TIMEOUTED then
     begin
-      lpInfo := callVkApi('groups.getLongPollServer', ['group_id', config['group_id'].AsString]);
+      lpInfo := TJSONObject(callVkApi('groups.getLongPollServer', ['group_id', config['group_id'].AsString]));
       logWrite('New longpoll info received');
       continue;
     end;
     lpResponse := TJSONObject(getJSON(response.text));
     if lpResponse.indexOfName('failed') <> -1 then
     begin
-      lpInfo := callVkApi('groups.getLongPollServer', ['group_id', config['group_id'].AsString]);
+      lpInfo := TJSONObject(callVkApi('groups.getLongPollServer', ['group_id', config['group_id'].AsString]));
       logWrite('New longpoll info received');
       continue;
     end;

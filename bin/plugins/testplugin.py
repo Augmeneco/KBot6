@@ -11,6 +11,7 @@ class SuperCmd:
 	keywords = ['йцй']
 	def handler(self, msg):
 		#print(msg)
+		print(kb.vkapi('users.get',{'user_ids':1}))
 		print(kb.vkapi('messages.send',{"message":'test',"peer_id":msg['peer_id']}))
 
 kb.reg_command(SuperCmd())

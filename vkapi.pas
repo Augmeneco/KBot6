@@ -7,7 +7,7 @@ interface
     fpjson, jsonparser, sysutils, libcurl,
     Net, Utils;
 
-  function callVkApi(method: AnsiString; parameters: Array of AnsiString): TJSONObject;
+  function callVkApi(method: AnsiString; parameters: Array of AnsiString): TJSONData;
   procedure sendMsg(peer_id: Integer; text: String);
 
 
@@ -46,7 +46,7 @@ implementation
     Result := sBuff;
   end;
 
-  function callVkApi(method: AnsiString; parameters: Array of AnsiString): TJSONObject;
+  function callVkApi(method: AnsiString; parameters: Array of AnsiString): TJSONData;
   var
     paramsString: AnsiString;
     i: Integer;
@@ -68,7 +68,7 @@ implementation
       writeln(format('VK ERROR #%d: "%s"'#13#10'PARAMS: %s', [json.getPath('error.error_code').asInteger,
                                                               json.getPath('error.error_msg').asString,
                                                               json.getPath('error.request_params').asJSON]));
-    result := json.get('response', TJSONObject.create());
+    result := json['response'];
 
   end;
 
