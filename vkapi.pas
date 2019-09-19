@@ -51,9 +51,9 @@ implementation
     paramsString: AnsiString;
     i: Integer;
     response: TResponse;
-    jsonData: TJSONData;
     json: TJSONObject;
   begin
+    setLength(paramsString, 0);
     for i := 0 to length(parameters) - 1 do
       if i mod 2 = 0 then
          paramsString += '&'+encodeUrl(parameters[i])+'='+encodeUrl(parameters[i+1]);
@@ -65,7 +65,7 @@ implementation
     //begin
     json := TJSONObject(getJSON(response.text));
     if json.indexOfName('error') <> -1 then
-      writeln(format('VK ERROR #%s: "%s"'#13#10'PARAMS: %s', [json.getPath('error.error_code').asInteger,
+      writeln(format('VK ERROR #%d: "%s"'#13#10'PARAMS: %s', [json.getPath('error.error_code').asInteger,
                                                               json.getPath('error.error_msg').asString,
                                                               json.getPath('error.request_params').asJSON]));
     result := json.get('response', TJSONObject.create());
