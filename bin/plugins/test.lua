@@ -1,3 +1,4 @@
+log_write('Lua version is '.._VERSION)
 local inspect = require('plugins.inspect')
 function handler(msg)
   print('handler called');

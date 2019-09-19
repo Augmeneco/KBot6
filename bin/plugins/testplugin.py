@@ -1,5 +1,7 @@
 import kb
 
+
+
 def f():
 	pass
 kb.reg_handler('first1', f)
