@@ -28,47 +28,46 @@ implementation
     function JSONtoPyObj(json: TJSONData): PPyObject;
     var
       enum: TJSONEnum;
-      obj, childObj: PPyObject;
+      obj: PPyObject;
     begin
-      if json.JSONType = TJSONtype.jtObject then
-        obj := py.PyDict_New()
-      else if json.JSONType = TJSONtype.jtArray then
-        obj := py.PyList_New(0);
+      case json.JSONType of
+        TJSONtype.jtNull:
+          exit(py.Py_None);
 
-      result := obj;
+        TJSONtype.jtBoolean:
+          if json.asBoolean then
+            exit(PPyObject(py.Py_True))
+          else
+            exit(PPyObject(py.Py_False));
 
-      for enum in json do
-      begin
-        case enum.value.JSONType of
-          TJSONtype.jtNull:
-            childObj := py.Py_None;
+        TJSONtype.jtNumber:
+          if TJSONNumber(json).NumberType = TJSONNumberType.ntFloat then
+            exit(py.PyFloat_FromDouble(json.asFloat))
+          else
+            exit(py.PyLong_FromLongLong(json.asInt64));
 
-          TJSONtype.jtBoolean:
-            if enum.value.asBoolean then
-              childObj := PPyObject(py.Py_True)
-            else
-              childObj := PPyObject(py.Py_False);
+        TJSONtype.jtString:
+          exit(py.PyUnicode_FromWideString(json.AsUnicodeString));
 
-          TJSONtype.jtNumber:
-            if TJSONNumber(enum.value).NumberType = TJSONNumberType.ntFloat then
-              childObj := py.PyFloat_FromDouble(enum.value.asFloat)
-            else
-              childObj := py.PyLong_FromLongLong(enum.value.asInt64);
-
-          TJSONtype.jtString:
-            childObj := py.PyUnicode_FromWideString(enum.value.AsUnicodeString);
-
-          TJSONtype.jtObject:
-            childObj := JSONtoPyObj(enum.value);
-
-          TJSONtype.jtArray:
-            childObj := JSONtoPyObj(enum.value);
+        TJSONtype.jtObject:
+        begin
+          obj := py.PyDict_New();
+          for enum in json do
+          begin
+            py.PyDict_SetItemString(obj, PChar(enum.key), JSONtoPyObj(enum.value))
+          end;
+          exit(obj);
         end;
 
-        if json.JSONType = TJSONtype.jtObject then
-          py.PyDict_SetItemString(obj, PChar(enum.key), childObj)
-        else if json.JSONType = TJSONtype.jtArray then
-          py.PyList_Append(obj, childObj);
+        TJSONtype.jtArray:
+        begin
+          obj := py.PyList_New(0);
+          for enum in json do
+          begin
+            py.PyList_Append(obj, JSONtoPyObj(enum.value));
+          end;
+          exit(obj);
+        end;
       end;
     end;
 
@@ -136,7 +135,7 @@ implementation
       begin
         setLength(cmd.keywords, length(cmd.keywords)+1);
         keywordObj := py.PyList_GetItem(kwObj, i);
-        cmd.keywords[high(cmd.keywords)] := UTF8Encode(py.PyUnicode_AsWideString(py.PyObject_Str(keywordObj)));
+          cmd.keywords[high(cmd.keywords)] := UTF8Encode(py.PyUnicode_AsWideString(py.PyObject_Str(keywordObj)));
       end;
 
       cmd.handlerObj := py.PyObject_GetAttrString(cmdObj, 'handler');
@@ -307,6 +306,7 @@ implementation
       py.LoadDll();
 
       //создание переменных модуля kb
+      module.SetVar('CONFIG', JSONtoPyObj(config));
       module.SetVar('config', JSONtoPyObj(config));
 
       py.PyRun_SimpleString('import sys');

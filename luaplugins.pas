@@ -32,70 +32,47 @@ implementation
     enum: TJSONEnum;
     tableRef: Integer;
   begin
-    for enum in json do
-    begin
-      case enum.value.JSONType of
-        TJSONtype.jtNull:
+    case json.JSONType of
+      TJSONtype.jtNull:
+        lua_pushnil(luaState);
+      TJSONtype.jtBoolean:
+        lua_pushboolean(luaState, json.asBoolean);
+      TJSONtype.jtNumber:
+        lua_pushnumber(luaState, Double(json.asFloat));
+      TJSONtype.jtString:
+        lua_pushstring(luaState, json.asString);
+      TJSONtype.jtObject:
+      begin
+        lua_newtable(luaState);
+        for enum in json do
         begin
-          lua_pushnil(luaState);
-
-          if json.JSONType = TJSONtype.jtArray then
-            lua_rawseti(luaState, -2, enum.KeyNum+1)
-          else if json.JSONType = TJSONtype.jtObject then
-            lua_setfield(luaState, -2, PChar(enum.key));
-        end;
-
-        TJSONtype.jtBoolean:
-        begin
-          lua_pushboolean(luaState, enum.value.asBoolean);
-
-          if json.JSONType = TJSONtype.jtArray then
-            lua_rawseti(luaState, -2, enum.KeyNum+1)
-          else if json.JSONType = TJSONtype.jtObject then
-            lua_setfield(luaState, -2, PChar(enum.key));
-        end;
-
-        TJSONtype.jtNumber:
-        begin
-          lua_pushnumber(luaState, Double(enum.value.asFloat));
-
-          if json.JSONType = TJSONtype.jtArray then
-            lua_rawseti(luaState, -2, enum.KeyNum+1)
-          else if json.JSONType = TJSONtype.jtObject then
-            lua_setfield(luaState, -2, PChar(enum.key));
-        end;
-
-        TJSONtype.jtString:
-        begin
-          lua_pushstring(luaState, enum.value.asString);
-
-          if json.JSONType = TJSONtype.jtArray then
-            lua_rawseti(luaState, -2, enum.KeyNum+1)
-          else if json.JSONType = TJSONtype.jtObject then
-            lua_setfield(luaState, -2, PChar(enum.key));
-        end;
-
-        TJSONtype.jtArray, TJSONtype.jtObject:
-        begin
-          lua_newtable(luaState);
-
-          if json.JSONType = TJSONtype.jtArray then
-            lua_rawseti(luaState, -2, enum.KeyNum+1)
-          else if json.JSONType = TJSONtype.jtObject then
-            lua_setfield(luaState, -2, PChar(enum.key));
-
           tableRef := luaL_ref(luaState, LUA_REGISTRYINDEX);
-
           lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
-
-          if json.JSONType = TJSONtype.jtArray then
-            lua_rawgeti(luaState, -1, enum.KeyNum+1)
-          else if json.JSONType = TJSONtype.jtObject then
-            lua_getfield(luaState, -1, PChar(enum.key));
 
           JSONtoTable(luaState, enum.value);
+
           lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
           luaL_unref(luaState, LUA_REGISTRYINDEX, tableRef);
+
+          lua_insert(luaState, -2);
+          lua_setfield(luaState, -2, PChar(enum.key));
+        end;
+      end;
+      TJSONtype.jtArray:
+      begin
+        lua_newtable(luaState);
+        for enum in json do
+        begin
+          tableRef := luaL_ref(luaState, LUA_REGISTRYINDEX);
+          lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
+
+          JSONtoTable(luaState, enum.value);
+
+          lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
+          luaL_unref(luaState, LUA_REGISTRYINDEX, tableRef);
+
+          lua_insert(luaState, -2);
+          lua_rawseti(luaState, -2, enum.KeyNum+1);
         end;
       end;
     end;
@@ -278,7 +255,6 @@ implementation
 
     response := callVkApi(method, parameters);
 
-    lua_newtable(L);
     JSONtoTable(L, response);
 
     result := 1;
@@ -350,9 +326,12 @@ implementation
     lua_register(mainLuaState, 'net_get', @getLua);
     lua_register(mainLuaState, 'log_write', @logWriteLua);
     //создание стандартных переменных
-    lua_newtable(mainLuaState);
+    JSONtoTable(mainLuaState, config);
+    lua_setglobal(mainLuaState, 'CONFIG');
     JSONtoTable(mainLuaState, config);
     lua_setglobal(mainLuaState, 'config');
+    lua_pushinteger(mainLuaState, botStartTime);
+    lua_setglobal(mainLuaState, 'BOT_START_TIME');
 
     logWrite('Lua context created');
 

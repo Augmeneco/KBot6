@@ -65,11 +65,14 @@ implementation
     //begin
     json := TJSONObject(getJSON(response.text));
     if json.indexOfName('error') <> -1 then
+    begin
       writeln(format('VK ERROR #%d: "%s"'#13#10'PARAMS: %s', [json.getPath('error.error_code').asInteger,
                                                               json.getPath('error.error_msg').asString,
                                                               json.getPath('error.request_params').asJSON]));
-    result := json['response'];
+      raise Exception.create('VK ERROR');
+    end;
 
+    result := json['response'];
   end;
 
   procedure sendMsg(peer_id: Integer; text: String);

@@ -1,5 +1,6 @@
 log_write('Lua version is '.._VERSION)
 local inspect = require('plugins.inspect')
+print(inspect(config))
 function handler(msg)
   print('handler called');
   change_handler(msg.from_id, 'main')
@@ -11,7 +12,7 @@ reg_handler('first', handler)
 --log_write('zhozh')
 
 cmd = {}
-cmd['keywords']={'ror', 'pop'}
+cmd['keywords']={'ror', 'уку'}
 cmd['level'] = 1
 function cmd.handler(msg)
   print(inspect(msg))

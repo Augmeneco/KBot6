@@ -17,11 +17,6 @@ interface
         level: Byte;
         //procedure handler(msg: TJSONObject); virtual;
     end;
-    TPack = record
-      handler: THandler;
-      msg: TJSONObject;
-    end;
-    PTPack = ^TPack;
 
   var
     commandsArray: Array of TCommand;
@@ -35,12 +30,28 @@ implementation
     RegExpr, sysutils, strutils,
     Database, Utils;
 
+  type
+    TPack = record
+      handler: THandler;
+      msg: TJSONObject;
+    end;
+    PTPack = ^TPack;
+
   //procedure TCommand.handler(msg: TJSONObject); begin end;
   procedure THandler.handler(msg: TJSONObject); begin end;
 
   function thread(pack: Pointer): ptrint;
   begin
-    PTPack(pack)^.handler.handler(PTPack(pack)^.msg);
+    //logThreadId := PTPack(pack)^.msg.integers[thre];
+    try
+      PTPack(pack)^.handler.handler(PTPack(pack)^.msg);
+    except
+      on e: Exception do
+        logWrite(format('Error while processing message in thread: "%s".%s MSGOBJ: %s',
+                        [e.toString(), LineEnding, PTPack(pack)^.msg.asJSON]), TLogType.logError);
+    end;
+    dispose(PTPack(pack));
+    exit(0);
   end;
 
   function unescapeHTML ( const S : String ) : String;
@@ -64,7 +75,10 @@ implementation
     enum: TJSONEnum;
     cmdName: String;
     pack: PTPack;
+    threadId: TThreadID;
   begin
+    msg.integers['local_id'] := msg.integers['date']+msg.integers['peer_id']+msg.integers['from_id'];
+
     if (msg['peer_id'].asInteger > 0) and (msg['peer_id'].asInteger < 2000000000) then
       msg.add('chat_type', 'private')
     else if msg['peer_id'].asInteger > 2000000000 then
@@ -162,7 +176,7 @@ implementation
       end;
     regex.free();
 
-    logWrite(format('Bot mentioned by id%d in %d. Info { Text: "%s", AttachCount: %d }',
+    logWrite(format('Mentioned by id%d in %d. Info { Text: "%s", AttachCount: %d }',
                     [msg.integers['from_id'],
                      msg.integers['peer_id'],
                      msg.strings['text'],
@@ -182,7 +196,8 @@ implementation
         pack := new(PTPack);
         pack^.handler := cmd;
         pack^.msg := msg;
-        beginThread(@thread, pack);
+        threadId := msg.integers['local_id'];
+        beginThread(@thread, pack, threadId);
       end;
     end;
   end;

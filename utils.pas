@@ -10,6 +10,10 @@ interface
 
   var
     config: TJSONObject;
+    botStartTime: Int64;
+
+  threadvar
+    logThreadId: Integer;
 
   procedure logWrite(str: String; logType: TLogType=TLogType.logNormal);
 
@@ -40,7 +44,13 @@ implementation
     //    TLogType.logWarning:
     //      textColor(Yellow);
     //  end;
-    writeln(formatDateTime('[dd/mm/yy hh:nn:ss"."zzz]', logTime), ' ', str);
+    //writeln(format('[%s][%d] %s',
+    //               [formatDateTime('dd/mm/yy hh:nn:ss"."zzz', logTime),
+    //                getCurrentThreadId(),
+    //                str]));
+    writeln(format('[%s] %s',
+                   [formatDateTime('dd/mm/yy hh:nn:ss"."zzz', logTime),
+                    str]));
     //if enableColors then
     //  textColor(LightGray);
   end;

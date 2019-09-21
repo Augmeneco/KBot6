@@ -4,7 +4,7 @@ program KBot6;
 {$linklib pthread}
 
 uses
-  {$ifdef unix}cthreads,{$endif} fpjson, sysutils, libcurl,
+  {$ifdef unix}cthreads,{$endif} fpjson, sysutils, libcurl, dateutils,
   Net, Utils, VKAPI, Commands, Database, LuaPlugins, PythonPlugins;
 
 
@@ -14,7 +14,10 @@ var
   msg: TJSONObject;
   lpUpdate: TJSONEnum;
 
+{$R *.res}
+
 begin
+  botStartTime := dateTimeToUnix(Now());
   logWrite('KBot6 Unified by Augmeneco');
   logWrite('Initilizing...');
 
@@ -57,8 +60,8 @@ begin
           //raise Exception.create('AAA KERNEL PANIC!!!');
           commandsHandler(msg)
         except
-          on E: Exception do
-            logWrite('Произошла ошибка: '+E.ToString(), TLogType.logError);
+          on e: Exception do
+            logWrite('Error occurred while message processing: '+E.ToString(), TLogType.logError);
         end;
       end;
     end;
