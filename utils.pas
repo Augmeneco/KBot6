@@ -44,13 +44,13 @@ implementation
     //    TLogType.logWarning:
     //      textColor(Yellow);
     //  end;
-    //writeln(format('[%s][%d] %s',
-    //               [formatDateTime('dd/mm/yy hh:nn:ss"."zzz', logTime),
-    //                getCurrentThreadId(),
-    //                str]));
-    writeln(format('[%s] %s',
+    writeln(format('[%s][%u] %s',
                    [formatDateTime('dd/mm/yy hh:nn:ss"."zzz', logTime),
+                    logThreadId,
                     str]));
+    //writeln(format('[%s] %s',
+    //               [formatDateTime('dd/mm/yy hh:nn:ss"."zzz', logTime),
+    //                str]));
     //if enableColors then
     //  textColor(LightGray);
   end;

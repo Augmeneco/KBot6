@@ -17,6 +17,7 @@ var
 {$R *.res}
 
 begin
+  logThreadId := 0;
   botStartTime := dateTimeToUnix(Now());
   logWrite('KBot6 Unified by Augmeneco');
   logWrite('Initilizing...');
