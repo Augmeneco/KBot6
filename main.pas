@@ -1,5 +1,6 @@
 program KBot6;
 
+
 {$linklib m}
 {$linklib pthread}
 

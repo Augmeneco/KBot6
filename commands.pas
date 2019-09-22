@@ -27,7 +27,7 @@ interface
 
 implementation
   uses
-    RegExpr, sysutils, strutils,
+    sysutils, strutils, FLRE,
     Database, Utils;
 
   type
@@ -36,6 +36,9 @@ implementation
       msg: TJSONObject;
     end;
     PTPack = ^TPack;
+
+  var
+    regexCmdStr: TFLRE;
 
   //procedure TCommand.handler(msg: TJSONObject); begin end;
   procedure THandler.handler(msg: TJSONObject); begin end;
@@ -54,6 +57,26 @@ implementation
     exit(0);
   end;
 
+  function veryBadToLower(str: String): String;
+  const
+    convLowers: Array [0..87] of String = ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+    	'v', 'w', 'x', 'y', 'z', 'à', 'á', 'â', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï',
+    	'ð', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж',
+    	'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы',
+    	'ь', 'э', 'ю', 'я');
+    convUppers: Array [0..87] of String = ('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+    	'V', 'W', 'X', 'Y', 'Z', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï',
+    	'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж',
+    	'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ъ',
+    	'Ь', 'Э', 'Ю', 'Я');
+  var
+    i: Integer;
+  begin
+    result := str;
+    for i := 0 to 87 do
+      result := stringReplace(result, convUppers[i], convLowers[i], [rfReplaceAll]);
+  end;
+
   function unescapeHTML ( const S : String ) : String;
   begin
     Result := StringReplace(s,      '&lt;',   '<', [rfReplaceAll]);
@@ -62,19 +85,20 @@ implementation
     Result := StringReplace(Result, '&#39;',  #39, [rfReplaceAll]);
     Result := StringReplace(Result, '&apos;', #39, [rfReplaceAll]);
     Result := StringReplace(Result, '&amp;',  '&', [rfReplaceAll]);
+    Result := StringReplace(Result, '<br/>',  LineEnding, [rfReplaceAll]);
   end;
 
   procedure commandsHandler(msg: TJSONObject);
   var
-    regex: TRegExpr;
+    parts : TFLREMultiStrings = nil;
+    names: Array of String;
     textWithoutSlash: String;
     cmd: TCommand;
     handler: THandler;
     dbResponse: TJSONArray;
-    found: Boolean;
     enum: TJSONEnum;
-    cmdName: String;
     pack: PTPack;
+    i: Integer;
   begin
     msg.integers['local_id'] := msg.integers['date']+msg.integers['peer_id']+msg.integers['from_id'];
 
@@ -117,63 +141,48 @@ implementation
       if msg.strings['text'][1] = '/' then
         textWithoutSlash := copy(msg.strings['text'], 2, length(msg.strings['text']));
 
-    regex := TRegExpr.create();
-    regex.expression := '(\[club(\d+)\|\s*\S+\s*\]).*';
-
     if length(textWithoutSlash) = 0 then
       exit;
 
-    found := false;
+    setLength(names, 0);
     for enum in config.arrays['names'] do
-      if 0=CompareStr(enum.value.asString, UTF8String(textWithoutSlash.split(' ')[0])) then
-      begin
-        found := true;
-        break;
-      end;
-    if found then
     begin
-      msg.add('prefix', textWithoutSlash.split(' ')[0].trim());
-      if length(textWithoutSlash.split(' ')) >= 2 then
-        msg.add('command', textWithoutSlash.split(' ')[1].trim())
-      else
-        msg.add('command', '');
-      if length(textWithoutSlash.split(' ')) >= 3 then
-        msg.add('argument', ''.join(' ', textWithoutSlash.split(' '), 2, length(textWithoutSlash.split(' '))-2).trim())
-      else
-        msg.add('argument', '');
-    end
-    else if regex.exec(textWithoutSlash) and
-            (regex.match[2].toInteger() = config.integers['group_id']) then
+      setLength(names, length(names)+1);
+      names[high(names)] := veryBadToLower(enum.value.asString);
+    end;
+
+    if regexCmdStr.UTF8ExtractAll(textWithoutSlash, parts)
+       and (((length(parts[0][2]) > 0) and (strToInt(parts[0][2]) = config.integers['group_id']))
+            or AnsiMatchStr(veryBadToLower(parts[0][1]), names)
+            or (not AnsiMatchStr(veryBadToLower(parts[0][1]), names) and (msg.strings['chat_type'] = 'private'))) then
     begin
-      msg.add('prefix', regex.match[2]);
-      if length(textWithoutSlash.split(' ')) >= 2 then
-        msg.add('command', textWithoutSlash.replace(regex.match[1], '').split(' ')[1].trim())
-      else
-        msg.add('command', '');
-      if length(textWithoutSlash.split(' ')) >= 3 then
-        msg.add('argument', ''.join(' ', textWithoutSlash.replace(regex.match[1], '').split(' '), 2, length(textWithoutSlash.replace(regex.match[1], '').split(' '))-3).trim())
-      else
-        msg.add('argument', '');
-    end
-    else
-      if msg.strings['chat_type'] = 'private' then
+      if msg.strings['chat_type'] = 'dialog' then
       begin
-        msg.add('prefix', '');
-        if length(textWithoutSlash.split(' ')) >= 2 then
-          msg.add('command', textWithoutSlash.split(' ')[0].trim())
-        else
-          msg.add('command', '');
-        if length(textWithoutSlash.split(' ')) >= 3 then
-          msg.add('argument', ''.join(' ', textWithoutSlash.split(' '), 1, length(textWithoutSlash.split(' '))-2).trim())
-        else
-          msg.add('argument', '');
+        msg.add('prefix', parts[0][1]);
+        msg.add('command', parts[0][3]);
+        msg.add('argument', parts[0][4]);
       end
       else
       begin
-        regex.free();
-        exit;
+        msg.add('prefix', '');
+        msg.add('command', parts[0][1]);
+        msg.add('argument', parts[0][3]);
       end;
-    regex.free();
+    end
+    else
+    begin
+      // Free regexp memory
+      for i := 0 to length(parts)-1 do
+          setLength(parts[i], 0);
+      parts := nil;
+
+      exit;
+    end;
+
+    // Free regexp memory
+    for i := 0 to length(parts)-1 do
+        setLength(parts[i], 0);
+    parts := nil;
 
     logWrite(format('Mentioned by %d in %d. Info{Text: "%s", AttachCount: %d, ID: %u}',
                     [msg.integers['from_id'],
@@ -184,14 +193,7 @@ implementation
 
     for cmd in commandsArray do
     begin
-      found := false;
-      for cmdName in cmd.keywords do
-        if 0=CompareStr(msg['command'].asString, cmdName) then
-        begin
-          found := true;
-          break;
-        end;
-      if found and (dbResponse.objects[0].integers['perm'] >= cmd.level) then
+      if ansiMatchStr(veryBadToLower(msg['command'].asString), cmd.keywords) and (dbResponse.objects[0].integers['perm'] >= cmd.level) then
       begin
         pack := new(PTPack);
         pack^.handler := cmd;
@@ -200,5 +202,9 @@ implementation
       end;
     end;
   end;
+
+begin
+  regexCmdStr := TFLRE.create('^\s*(\[club(\d+)\|\s*\S+\s*\]|\S+)(?:\s+(\S+)|\s*$)(?:\s+(\S.*)$|\s*$)',
+                              [ rfUTF8, rfSINGLELINE ]);
 end.
 
