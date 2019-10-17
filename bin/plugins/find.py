@@ -2,7 +2,6 @@ import kb, requests, os
 import libkbot as libkb
 from lxml import html
 from lxml import etree
-
 class findimg:
 	level = 1
 	keywords = ['что','чтоэто']

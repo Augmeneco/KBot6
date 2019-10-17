@@ -1,4 +1,6 @@
-import kb, random, requests
+import kb 
+import random
+import requests
 import libkbot as libkb
 
 class docs:

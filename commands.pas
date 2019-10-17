@@ -27,7 +27,7 @@ interface
 
 implementation
   uses
-    sysutils, strutils, FLRE,
+    sysutils, strutils, FLRE, cwstring,
     Database, Utils;
 
   type
