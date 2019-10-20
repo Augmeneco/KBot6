@@ -1,4 +1,8 @@
-import kb, random, requests, re
+import kb
+import queue
+import random
+import requests
+import re
 import libkbot as libkb
 
 class dvach:

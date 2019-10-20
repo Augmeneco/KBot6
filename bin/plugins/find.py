@@ -1,7 +1,8 @@
 import kb, requests, os, re
 import libkbot as libkb
-from lxml import html
-from lxml import etree
+from bs4 import BeautifulSoup
+#from lxml import html
+#from lxml import etree
 
 class findimg:
 	level = 1
@@ -20,12 +21,13 @@ class findimg:
 					url = size['url']
 			print(1)
 			index = requests.get('https://yandex.ru/images/search?url='+url+'&rpt=imageview',proxies=proxies).text
-			index = html.fromstring(index)
-			tags = index.xpath('//div[@class="tags__wrapper"]/a')
+			soup = BeautifulSoup(index, 'html.parser')
+			#index = html.fromstring(index)
+			#tags = index.xpath('//div[@class="tags__wrapper"]/a')
 			out = ''
-			for tag in tags:
-				out += '• '+re.sub('(\<(/?[^>]+)>)','',etree.tostring(tag).decode())+'\n'
-			print(2)
+			for tag in soup.find_all(class_='tags__tag'):
+				out += '• '+tag.text+'\n'
+			
 			libkb.apisay('Я думаю на изображении что-то из этого: \n'+out,msg['toho'])
 		else:
 			libkb.apisay('Картинку сунуть забыл',msg['toho'])

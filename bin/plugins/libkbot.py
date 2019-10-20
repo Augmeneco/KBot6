@@ -1,6 +1,6 @@
 import kb
-import requests, json
-
+import requests
+import json
 def fix_names(msg):
     msg['userid'] = msg['from_id']
     msg['toho'] = msg['peer_id']

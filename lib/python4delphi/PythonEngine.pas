@@ -3178,7 +3178,7 @@ procedure MaskFPUExceptions(ExceptionsMasked : boolean;
 implementation
 
 
-uses Math{$IFDEF MSWINDOWS}, Registry{$ENDIF};
+uses Math, dl, BaseUnix{$IFDEF MSWINDOWS}, Registry{$ENDIF};
 
 
 (*******************************************************)
@@ -3350,17 +3350,24 @@ end;
 (*******************************************************)
 
 procedure TDynamicDll.DoOpenDll(const aDllName : String);
+var
+  le: Integer;
 begin
   if not IsHandleValid then
   begin
     FDllName := aDllName;
-    FDLLHandle := LoadLibrary(
-      {$IFDEF FPC}
-        PAnsiChar(AnsiString(GetDllPath+DllName))
-      {$ELSE}
-        GetDllPath+DllName
-      {$ENDIF}
-    );
+    writeln(GetDllPath+DllName);
+    FDLLHandle := TLibHandle(dlopen(PAnsiChar(GetDllPath+DllName), RTLD_LAZY and RTLD_GLOBAL));
+    //FDLLHandle := LoadLibrary(
+    //  {$IFDEF FPC}
+    //    PAnsiChar(AnsiString(GetDllPath+DllName))
+    //  {$ELSE}
+    //    GetDllPath+DllName
+    //  {$ENDIF}
+    //);
+
+    le := fpGetErrno(); //save for further processing, optional
+    writeln( SysErrorMessage( le ) );
   end;
 end;
 

@@ -25,9 +25,10 @@ interface
   procedure commandsHandler(msg: TJSONObject);
 
 
+
 implementation
   uses
-    sysutils, strutils, FLRE,
+    sysutils, strutils, FLRE, cwstring,
     Database, Utils;
 
   type

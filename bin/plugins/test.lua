@@ -7,6 +7,8 @@ end
 
 reg_handler('first', handler)
 
+--print(net_post('https://httpbin.org/post').text)
+
 --print(inspect(vkapi('groups.getTokenPermissions')))
 --log_write('zhozh')
 

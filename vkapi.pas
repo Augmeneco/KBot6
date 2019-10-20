@@ -48,21 +48,23 @@ implementation
 
   function callVkApi(method: AnsiString; parameters: Array of AnsiString): TJSONData;
   var
-    paramsString: AnsiString;
+    params: Array of String;
     i: Integer;
     response: TResponse;
     json: TJSONObject;
   begin
-    setLength(paramsString, 0);
+    setLength(params, 2);
+    params[0] := 'access_token='+config.strings['group_token'];
+    params[1] := 'v=5.80';
     for i := 0 to length(parameters) - 1 do
       if i mod 2 = 0 then
-         paramsString += '&'+encodeUrl(parameters[i])+'='+encodeUrl(parameters[i+1]);
-    response := get(format('https://api.vk.com/method/%s?v=5.80&access_token=%s%s',
-                           [method,
-                            config.strings['group_token'],
-                            paramsString]));
-    //if response.code = CURLE_OK then
-    //begin
+      begin
+        setLength(params, length(params)+1);
+        params[high(params)] := parameters[i]+'='+parameters[i+1];
+      end;
+
+    response := post('https://api.vk.com/method/'+method, params, []);
+
     json := TJSONObject(getJSON(response.text));
     if json.indexOfName('error') <> -1 then
     begin

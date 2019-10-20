@@ -17,7 +17,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
-      <BuildNr Value="39"/>
+      <BuildNr Value="44"/>
       <Language Value="0419"/>
       <CharSet Value="04B0"/>
       <Attributes pvaPrivateBuild="True"/>
@@ -34,7 +34,7 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <Units Count="8">
+    <Units Count="9">
       <Unit0>
         <Filename Value="main.pas"/>
         <IsPartOfProject Value="True"/>
@@ -75,6 +75,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="PythonPlugins"/>
       </Unit7>
+      <Unit8>
+        <Filename Value="events.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Events"/>
+      </Unit8>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -84,7 +89,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="lib/python4delphi;lib/flre"/>
+      <OtherUnitFiles Value="lib/python4lazarus;lib/flre"/>
       <UnitOutputDirectory Value="compunits/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
@@ -104,7 +109,7 @@
       </Debugging>
       <Options>
         <PassLinkerOptions Value="True"/>
-        <LinkerOptions Value="-R ./"/>
+        <LinkerOptions Value="-R ./ -llua"/>
       </Options>
     </Linking>
   </CompilerOptions>
