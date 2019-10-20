@@ -21,7 +21,7 @@ function cmd.handler(msg)
 
     status = status:gsub('BOT_USE',BOT_USE):gsub('UPTIME',io.popen('uptime'):read('*a'))
 
-    local clock = math.floor(os.clock()*100)
+    local clock = os.time()-(BOT_START_TIME-10800)
     local WORK_TIME = math.floor(clock/(60*60*24))..' дней | '..math.floor((clock/(60*60))%24)..' часов | '..math.floor((clock/60)%60)..' минут | '..math.floor((clock)%60)..' секунд'
     status = status:gsub('WORK_TIME',WORK_TIME):gsub('CHAT',msg.peer_id)
 

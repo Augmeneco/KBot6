@@ -1,12 +1,14 @@
 import kb
-#import requests, json
-import json
+import requests, json
 
 def fix_names(msg):
     msg['userid'] = msg['from_id']
     msg['toho'] = msg['peer_id']
     msg['text_split'] = msg['text'].split(' ')
-    msg['user_text'] = msg['argument']
+    if 'argument' in msg:
+        msg['user_text'] = msg['argument']
+    else:
+        msg['user_text'] = msg['text']
     return msg
 
 def sendmsg(text,toho):

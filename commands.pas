@@ -137,9 +137,9 @@ implementation
       end;
 
     textWithoutSlash := msg.strings['text'];
-    if length(msg.strings['text']) <> 0 then
-      if msg.strings['text'][1] = '/' then
-        textWithoutSlash := copy(msg.strings['text'], 2, length(msg.strings['text']));
+    //if length(msg.strings['text']) <> 0 then
+    //  if msg.strings['text'][1] = '/' then
+    //    textWithoutSlash := copy(msg.strings['text'], 2, length(msg.strings['text']));
 
     if length(textWithoutSlash) = 0 then
       exit;
@@ -156,7 +156,8 @@ implementation
             or AnsiMatchStr(veryBadToLower(parts[0][1]), names)
             or (not AnsiMatchStr(veryBadToLower(parts[0][1]), names) and (msg.strings['chat_type'] = 'private'))) then
     begin
-      if msg.strings['chat_type'] = 'dialog' then
+      //ИСПРАВЬ НАХУЙ БЛЯ ЙОПТА, ВЗЯЛ ВСЮ РАБОТУ БОТА ОСТАНОВИЛ ПИСЬКА
+      if (msg.strings['chat_type'] = 'dialog') or (AnsiMatchStr(veryBadToLower(parts[0][1]), names) and (msg.strings['chat_type'] = 'private')) then
       begin
         msg.add('prefix', parts[0][1]);
         msg.add('command', parts[0][3]);

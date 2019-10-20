@@ -1,0 +1,24 @@
+import kb
+import libkbot as libkb
+
+class manga:
+	level = 1
+	keywords = ['манга','manga']
+
+	def manga_wait_name(msg):
+		msg = libkb.fix_names(msg)
+		libkb.apisay('Вы ответили: '+msg['text'],msg['toho'])
+		kb.change_handler(msg['from_id'], 'manga_wait_num')
+	def manga_wait_num(msg):
+		msg = libkb.fix_names(msg)
+		libkb.apisay('Вы ответили: '+msg['text'],msg['toho'])
+		kb.change_handler(msg['from_id'], 'main')
+
+	kb.reg_handler('wait_answer', wait_answer_func)
+	def handler(self, msg):
+		msg = libkb.fix_names(msg)
+		libkb.apisay('Имя манги:',msg['toho'])
+
+		kb.change_handler(msg['from_id'], 'manga_wait_name')
+
+kb.reg_command(manga())

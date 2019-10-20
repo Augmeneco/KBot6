@@ -63,6 +63,7 @@ implementation
         lua_newtable(luaState);
         for enum in json do
         begin
+		  writeln(enum.KeyNum);
           tableRef := luaL_ref(luaState, LUA_REGISTRYINDEX);
           lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
 
@@ -314,7 +315,6 @@ implementation
     logWrite('Create lua context...');
     initCriticalSection(mainLuaMutex);
     mainLuaState := luaL_newstate();
-
     luaL_openlibs(mainLuaState);
     //создание стандартных функций
     lua_register(mainLuaState, 'reg_handler', @registerHandlerLua);
@@ -328,8 +328,11 @@ implementation
     //создание стандартных переменных
     JSONtoTable(mainLuaState, config);
     lua_setglobal(mainLuaState, 'CONFIG');
+    
     JSONtoTable(mainLuaState, config);
+    
     lua_setglobal(mainLuaState, 'config');
+
     lua_pushinteger(mainLuaState, botStartTime);
     lua_setglobal(mainLuaState, 'BOT_START_TIME');
 

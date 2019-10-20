@@ -1,4 +1,4 @@
-import kb, requests, os
+import kb, requests, os, re
 import libkbot as libkb
 from lxml import html
 from lxml import etree
@@ -10,6 +10,7 @@ class findimg:
 		#os.system('sudo service tor restart')
 		proxies = {'http': 'socks5h://localhost:9050','https': 'socks5h://localhost:9050'}
 		msg = libkb.fix_names(msg)
+		print(0)
 		if 'photo' in msg['attachments'][0]:
 			ret = msg['attachments'][0]['photo']['sizes']
 			num = 0
@@ -17,13 +18,14 @@ class findimg:
 				if size['width'] > num:
 					num = size['width']
 					url = size['url']
+			print(1)
 			index = requests.get('https://yandex.ru/images/search?url='+url+'&rpt=imageview',proxies=proxies).text
 			index = html.fromstring(index)
 			tags = index.xpath('//div[@class="tags__wrapper"]/a')
 			out = ''
 			for tag in tags:
-				out += '• '+re.sub('(\<(/?[^>]+)>)','',etree.tostring(tag))+'\n'
-			
+				out += '• '+re.sub('(\<(/?[^>]+)>)','',etree.tostring(tag).decode())+'\n'
+			print(2)
 			libkb.apisay('Я думаю на изображении что-то из этого: \n'+out,msg['toho'])
 		else:
 			libkb.apisay('Картинку сунуть забыл',msg['toho'])
