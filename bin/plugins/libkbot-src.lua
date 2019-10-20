@@ -1,5 +1,5 @@
 libkb = {}
-ins = require('inspect')
+ins = require('plugins.inspect')
 
 function libkb.scandir(directory) 
     local i, t, popen = 0, {}, io.popen 

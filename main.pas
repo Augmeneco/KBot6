@@ -37,7 +37,7 @@ begin
     response := get(format('%s?act=a_check&key=%s&ts=%s&wait=25', [lpInfo['server'].asString,
                                                                    lpInfo['key'].asString,
                                                                    lpInfo['ts'].asString]));
-    if response.code = CURLE_OPERATION_TIMEOUTED then
+    if response.code <> 200 then
     begin
       lpInfo := TJSONObject(callVkApi('groups.getLongPollServer', ['group_id', config['group_id'].AsString]));
       logWrite('New longpoll info received');

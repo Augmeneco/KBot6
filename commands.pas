@@ -25,6 +25,7 @@ interface
   procedure commandsHandler(msg: TJSONObject);
 
 
+
 implementation
   uses
     sysutils, strutils, FLRE, cwstring,
@@ -156,7 +157,7 @@ implementation
             or AnsiMatchStr(veryBadToLower(parts[0][1]), names)
             or (not AnsiMatchStr(veryBadToLower(parts[0][1]), names) and (msg.strings['chat_type'] = 'private'))) then
     begin
-      if msg.strings['chat_type'] = 'dialog' then
+      if (msg.strings['chat_type'] = 'dialog') or (AnsiMatchStr(veryBadToLower(parts[0][1]), names) and (msg.strings['chat_type'] = 'private')) then
       begin
         msg.add('prefix', parts[0][1]);
         msg.add('command', parts[0][3]);

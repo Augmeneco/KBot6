@@ -27,7 +27,7 @@ implementation
     mainLuaState: Plua_State;
     mainLuaMutex: TRTLCriticalSection;
 
-  procedure JSONtoTable(luaState: Plua_State; json: TJSONData);
+  procedure JSONtoLua(luaState: Plua_State; json: TJSONData);
   var
     enum: TJSONEnum;
     tableRef: Integer;
@@ -44,39 +44,116 @@ implementation
       TJSONtype.jtObject:
       begin
         lua_newtable(luaState);
+        tableRef := luaL_ref(luaState, LUA_REGISTRYINDEX);
+        lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
         for enum in json do
         begin
-          tableRef := luaL_ref(luaState, LUA_REGISTRYINDEX);
-          lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
-
-          JSONtoTable(luaState, enum.value);
+          JSONtoLua(luaState, enum.value);
 
           lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
-          luaL_unref(luaState, LUA_REGISTRYINDEX, tableRef);
 
           lua_insert(luaState, -2);
           lua_setfield(luaState, -2, PChar(enum.key));
         end;
+        luaL_unref(luaState, LUA_REGISTRYINDEX, tableRef);
       end;
       TJSONtype.jtArray:
       begin
         lua_newtable(luaState);
+        tableRef := luaL_ref(luaState, LUA_REGISTRYINDEX);
+        lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
         for enum in json do
         begin
-          tableRef := luaL_ref(luaState, LUA_REGISTRYINDEX);
-          lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
-
-          JSONtoTable(luaState, enum.value);
+          JSONtoLua(luaState, enum.value);
 
           lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
-          luaL_unref(luaState, LUA_REGISTRYINDEX, tableRef);
 
           lua_insert(luaState, -2);
           lua_rawseti(luaState, -2, enum.KeyNum+1);
         end;
+        luaL_unref(luaState, LUA_REGISTRYINDEX, tableRef);
       end;
     end;
   end;
+
+  function luaToJSON(luaState: Plua_State): TJSONData;
+  var
+    isArray: Boolean;
+    obj: TJSONObject;
+    arr: TJSONArray;
+    tableRef: Integer;
+    k, max: Double;
+  begin
+    if lua_isnil(luaState, -1) then
+      result.Value := nil
+    else if lua_isboolean(luaState, -1) then
+      result.Value := lua_toboolean(luaState, -1)
+    else if lua_isnumber(luaState, -1) then
+      result.Value := lua_tonumber(luaState, -1)
+    else if lua_isstring(luaState, -1) then
+      result.Value := lua_tostring(luaState, -1)
+    else if lua_istable(luaState, -1) then
+    begin
+      // Is not array?
+      isArray := true;
+      lua_pushnil(luaState);  // first key
+      max := 0;
+      while lua_next(luaState, -2) <> 0 do
+      begin
+        if lua_isnumber(luaState, -2) then
+        begin
+          k := lua_tonumber(luaState, -2);
+          lua_pop(luaState, 1);
+          // Integer >= 1 ?
+          if (trunc(k) = k) and (k >= 1) then
+          begin
+            if k > max then
+              max := k
+            else
+            begin
+              isArray := false;
+              break;
+            end;
+          end;
+        end
+        else
+        begin
+          isArray := false;
+          break;
+        end;
+      end;
+      lua_pop(luaState, 1);
+
+      if isArray then
+        arr := TJSONArray.Create
+      else
+        obj := TJSONObject.Create;
+
+      tableRef := luaL_ref(luaState, LUA_REGISTRYINDEX);
+      lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
+      lua_pushnil(luaState);  // first key
+      while lua_next(luaState, -2) <> 0 do
+      begin
+        // uses 'key' (at index -2) and 'value' (at index -1)
+        if isArray then
+          arr.Add(luaToJSON(luaState))
+        else
+          obj.Add(lua_tostring(luaState, -2), luaToJSON(luaState));
+        lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
+        //removes 'value'; keeps 'key' for next iteration
+        //lua_pushstring(L, parameters[high(parameters)-1]);
+        lua_pop(luaState, 1);
+      end;
+      lua_pop(luaState, 1);
+      luaL_unref(luaState, LUA_REGISTRYINDEX, tableRef);
+
+      if isArray then
+        result := arr
+      else
+        result := obj;
+    end;
+  end;
+
 
   procedure TLuaCommand.handler(msg: TJSONObject);
   var
@@ -87,7 +164,7 @@ implementation
     leaveCriticalSection(mainLuaMutex);
 
     lua_newtable(L);
-    JSONtoTable(L, msg);
+    JSONtoLua(L, msg);
     lua_rawgeti(L, LUA_REGISTRYINDEX, self.handlerRef);
     lua_insert(L, -2);
     if lua_pcall(L, 1, 0, 0) <> 0 then
@@ -103,7 +180,7 @@ implementation
     leaveCriticalSection(mainLuaMutex);
 
     lua_newtable(L);
-    JSONtoTable(L, msg);
+    JSONtoLua(L, msg);
     lua_rawgeti(L, LUA_REGISTRYINDEX, self.handlerRef);
     lua_insert(L, -2);
     if lua_pcall(L, 1, 0, 0) <> 0 then
@@ -221,7 +298,7 @@ implementation
     dbResponse := dbExecOut(query);
 
     lua_newtable(L);
-    JSONtoTable(L, dbResponse);
+    JSONtoLua(L, dbResponse);
 
     result := 1;
   end;
@@ -255,7 +332,7 @@ implementation
 
     response := callVkApi(method, parameters);
 
-    JSONtoTable(L, response);
+    JSONtoLua(L, response);
 
     result := 1;
   end;
@@ -281,8 +358,58 @@ implementation
   end;
 
   function postLua(L: Plua_State = nil): Longint; cdecl;
-  begin
+  var
+    url: String;
+    paramsArray: Array of String;
+    filesArray: Array of TFile;
+    resp: TResponse;
 
+    files: TJSONArray;
+    i: Integer;
+  begin
+    url := lua_tostring(L, 1);
+
+    setLength(paramsArray, 0);
+    if lua_gettop(L) >= 2 then
+    begin
+      lua_pushnil(L);  // first key
+      while lua_next(L, 2) <> 0 do
+      begin
+        // uses 'key' (at index -2) and 'value' (at index -1)
+        setLength(paramsArray, length(paramsArray)+1);
+        paramsArray[high(paramsArray)] := lua_tostring(L, -1);
+        //removes 'value'; keeps 'key' for next iteration
+        //lua_pushstring(L, parameters[high(parameters)-1]);
+        lua_pop(L, 1);
+      end;
+      lua_pop(L, 1);
+    end;
+
+    setLength(filesArray, 0);
+    if lua_gettop(L) >= 3 then
+    begin
+      lua_insert(L, 3);
+      files := TJSONArray(luaToJSON(L));
+      setLength(filesArray, files.Count);
+      for i := 0 to length(filesArray)-1 do
+      begin
+        filesArray[i].name := TJSONObject(files[i])['name'].AsString;
+        filesArray[i].filename := TJSONObject(files[i])['filename'].AsString;
+        filesArray[i].contentType := TJSONObject(files[i])['contenttype'].AsString;
+        filesArray[i].contents.writeAnsiString(TJSONObject(files[i])['contents'].AsString);
+      end;
+    end;
+
+    resp := post(url, paramsArray, filesArray);
+
+    lua_newtable(L);
+    lua_pushinteger(L, Int64(resp.code));
+    lua_setfield(L, -2, 'code');
+    lua_pushstring(L, resp.text);
+    lua_setfield(L, -2, 'text');
+    lua_pushlstring(L, PChar(resp.data), length(resp.data));
+    lua_setfield(L, -2, 'data');
+    exit(1);
   end;
 
   function logWriteLua(L: Plua_State = nil): Longint; cdecl;
@@ -324,11 +451,12 @@ implementation
     lua_register(mainLuaState, 'dbexec_out', @dbExecOutLua);
     lua_register(mainLuaState, 'vkapi', @callVkApiLua);
     lua_register(mainLuaState, 'net_get', @getLua);
+    lua_register(mainLuaState, 'net_post', @postLua);
     lua_register(mainLuaState, 'log_write', @logWriteLua);
     //создание стандартных переменных
-    JSONtoTable(mainLuaState, config);
+    JSONtoLua(mainLuaState, config);
     lua_setglobal(mainLuaState, 'CONFIG');
-    JSONtoTable(mainLuaState, config);
+    JSONtoLua(mainLuaState, config);
     lua_setglobal(mainLuaState, 'config');
     lua_pushinteger(mainLuaState, botStartTime);
     lua_setglobal(mainLuaState, 'BOT_START_TIME');
