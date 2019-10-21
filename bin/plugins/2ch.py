@@ -1,5 +1,4 @@
 import kb
-import queue
 import random
 import requests
 import re

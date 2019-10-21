@@ -34,7 +34,7 @@ function cmd.handler(msg)
         if mode == 1 then mode = 2 else mode = 1 end
         config.mode = mode
         config.day = date_now[2]
-        io.open('plugins/rasp/rasp.json','w'):write(json.encode(config))
+        io.popen('echo \''..json.encode(config)..'\'> plugins/rasp/rasp.json'):read('*a')
         libkb.apisay{'[LOG] Тип недели изменен на '..mode,msg.toho}
     end
     if mode == 1 then
