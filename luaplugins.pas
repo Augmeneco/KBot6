@@ -8,7 +8,7 @@ interface
 
 implementation
   uses
-    fpjson, lua, lualib, lauxlib, sysutils,
+    fpjson, lua53, dynlibs, sysutils,
     Commands, Database, VKAPI, Utils, Net;
 
   type
@@ -26,6 +26,42 @@ implementation
   var
     mainLuaState: Plua_State;
     mainLuaMutex: TRTLCriticalSection;
+
+  procedure stackDump(L: Plua_State; count: Integer=5; top: Boolean=true);
+  var
+    i, t: Integer;
+  begin
+    writeln('------------------- Stack Dump --------------------');
+    if top then
+      for i:=-1 downto -count do
+      begin
+        t := lua_type(L, i);
+        case t of
+          LUA_TSTRING:
+            writeln(i, ': "', lua_tostring(L, i), '"');
+          LUA_TBOOLEAN:
+            writeln(i, ': ', lua_toboolean(L, i));
+          LUA_TNUMBER:
+            writeln(i, ': ', lua_tonumber(L, i));
+          else writeln(i, ': ', lua_typename(L, i));
+        end;
+      end
+    else
+      for i:=1 downto count do
+      begin
+        t := lua_type(L, i);
+        case t of
+          LUA_TSTRING:
+            writeln(i, ': "', lua_tostring(L, i), '"');
+          LUA_TBOOLEAN:
+            writeln(i, ': ', lua_toboolean(L, i));
+          LUA_TNUMBER:
+            writeln(i, ': ', lua_tonumber(L, i));
+          else writeln(i, ': ', lua_typename(L, i));
+        end;
+      end;
+   writeln('--------------- Stack Dump Finished ---------------');
+  end;
 
   procedure JSONtoLua(luaState: Plua_State; json: TJSONData);
   var
@@ -455,11 +491,12 @@ implementation
     //создание стандартных переменных
     JSONtoLua(mainLuaState, config);
     lua_setglobal(mainLuaState, 'CONFIG');
-    JSONtoLua(mainLuaState, config);
-    lua_setglobal(mainLuaState, 'config');
-
+    //JSONtoLua(mainLuaState, config);
+    //lua_setglobal(mainLuaState, 'config');
     lua_pushinteger(mainLuaState, botStartTime);
     lua_setglobal(mainLuaState, 'BOT_START_TIME');
+
+    //stackDump(mainLuaState);
 
     logWrite('Lua context created');
 
@@ -467,9 +504,10 @@ implementation
       repeat
         pluginName := copy(fSearchRes.name, 0, length(fSearchRes.name)-4);
         logWrite('Loading and initilizing lua plugin: '+pluginName);
-
-        if lua_dofile(mainLuaState, PChar('./plugins/'+fSearchRes.name)) <> 0 then
-          logWrite('Error while loading plugin "'+ fSearchRes.name+ '": '+ lua_tostring(mainLuaState, -1), logError);;
+        if luaL_loadfile(mainLuaState, PChar('./plugins/'+fSearchRes.name)) <> 0 then
+          logWrite('Error while loading plugin "'+ fSearchRes.name+ '": '+ lua_tostring(mainLuaState, -1), logError);
+        if lua_pcall(mainLuaState, 0, LUA_MULTRET, 0) <> 0 then
+            logWrite('Error while initing plugin "'+ fSearchRes.name+ '": '+ lua_tostring(mainLuaState, -1), logError);
       until findNext(fSearchRes) <> 0;
     findClose(fSearchRes);
   end;

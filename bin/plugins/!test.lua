@@ -1,5 +1,6 @@
 log_write('Lua version is '.._VERSION)
 local inspect = require('plugins.inspect')
+local cjson = require('cjson')
 function handler(msg)
   print('handler called');
   change_handler(msg.from_id, 'main')

@@ -1,4 +1,3 @@
-print('sss')
 cmd = {}
 cmd['keywords']={'инфа'}
 cmd['level'] = 1

@@ -17,7 +17,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
-      <BuildNr Value="44"/>
+      <BuildNr Value="54"/>
       <Language Value="0419"/>
       <CharSet Value="04B0"/>
       <Attributes pvaPrivateBuild="True"/>
@@ -89,7 +89,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="lib/python4lazarus;lib/flre"/>
+      <OtherUnitFiles Value="lib/python4lazarus;lib/flre;lib/lua4lazarus"/>
       <UnitOutputDirectory Value="compunits/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
@@ -101,15 +101,13 @@
       <Optimizations>
         <OptimizationLevel Value="0"/>
       </Optimizations>
-      <SmallerCode Value="True"/>
     </CodeGeneration>
     <Linking>
       <Debugging>
         <UseValgrind Value="True"/>
       </Debugging>
       <Options>
-        <PassLinkerOptions Value="True"/>
-        <LinkerOptions Value="-R ./ -llua"/>
+        <LinkerOptions Value="-R ./"/>
       </Options>
     </Linking>
   </CompilerOptions>
