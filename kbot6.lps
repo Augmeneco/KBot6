@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="11"/>
-    <BuildModes Count="2" Active="Debug">
+    <BuildModes Count="2" Active="ReleasePi">
       <Item1 Name="Release">
         <CompilerOptions>
           <Version Value="11"/>
@@ -11,7 +11,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="lib/python4lazarus;lib/flre"/>
+            <OtherUnitFiles Value="lib/python4lazarus;lib/flre;lib/lua4lazarus"/>
             <UnitOutputDirectory Value="compunits/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -46,7 +46,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="lib/python4lazarus;lib/flre"/>
+            <OtherUnitFiles Value="lib/python4lazarus;lib/flre;lib/lua4lazarus"/>
             <UnitOutputDirectory Value="compunits/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -125,7 +125,7 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
         <TopLine Value="487"/>
-        <CursorPos X="7" Y="499"/>
+        <CursorPos X="31" Y="499"/>
         <IsLocked Value="True"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
