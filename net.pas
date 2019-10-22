@@ -74,38 +74,34 @@ implementation
     Sep:=Format('%.8x_multipart_boundary',[Random($ffffff)]);
     client.AddHeader('Content-Type','multipart/form-data; boundary='+Sep);
     SS:=TStringStream.Create('');
-    try
-      if (length(formData)<>0) then
-        for I:=0 to length(formData) -1 do
-          begin
-          // not url encoded
-          n := copy(formData[i], 0, pos('=', formData[i])-1);
-          v := copy(formData[i], pos('=', formData[i])+1, length(formData[i])-pos('=', formData[i]));
-          S :='--'+Sep+CRLF;
-          S:=S+Format('Content-Disposition: form-data; name="%s"'+CRLF+CRLF+'%s'+CRLF,[n, v]);
-          SS.WriteBuffer(S[1],Length(S));
-          end;
-     if (length(fileData)<>0) then
-       for I:=0 to length(fileData) -1 do
+    if (length(formData)<>0) then
+      for I:=0 to length(formData) -1 do
         begin
-          S:='--'+Sep+CRLF;
-          s:=s+Format('Content-Disposition: form-data; name="%s"; filename="%s"'+CRLF,[fileData[i].name,ExtractFileName(fileData[i].filename)]);
-          s:=s+'Content-Type: '+fileData[i].contentType+CRLF+CRLF;
-          SS.WriteBuffer(S[1],Length(S));
-          fileData[i].contents.Seek(0, soFromBeginning);
-          SS.CopyFrom(fileData[i].contents,fileData[i].contents.Size);
-          S:=CRLF+'--'+Sep+'--'+CRLF;
-          SS.WriteBuffer(S[1],Length(S));
+        // not url encoded
+        n := copy(formData[i], 0, pos('=', formData[i])-1);
+        v := copy(formData[i], pos('=', formData[i])+1, length(formData[i])-pos('=', formData[i]));
+        S :='--'+Sep+CRLF;
+        S:=S+Format('Content-Disposition: form-data; name="%s"'+CRLF+CRLF+'%s'+CRLF,[n, v]);
+        SS.WriteBuffer(S[1],Length(S));
         end;
-      S :='--'+Sep+CRLF;
-      SS.WriteBuffer(S[1],Length(S));
-      SS.Position:=0;
-      //writeln(ss.DataString);
-      client.RequestBody:=SS;
-      client.Post(url,bs);
-    finally
-    end;
-
+   if (length(fileData)<>0) then
+     for I:=0 to length(fileData) -1 do
+      begin
+        S:='--'+Sep+CRLF;
+        s:=s+Format('Content-Disposition: form-data; name="%s"; filename="%s"'+CRLF,[fileData[i].name,ExtractFileName(fileData[i].filename)]);
+        s:=s+'Content-Type: '+fileData[i].contentType+CRLF+CRLF;
+        SS.WriteBuffer(S[1],Length(S));
+        fileData[i].contents.Seek(0, soFromBeginning);
+        SS.CopyFrom(fileData[i].contents,fileData[i].contents.Size);
+        S:=CRLF+'--'+Sep+'--'+CRLF;
+        SS.WriteBuffer(S[1],Length(S));
+      end;
+    S :='--'+Sep+CRLF;
+    SS.WriteBuffer(S[1],Length(S));
+    SS.Position:=0;
+    //writeln(ss.DataString);
+    client.RequestBody:=SS;
+    client.Post(url, bs);
     resp.code := client.ResponseStatusCode;
     resp.text := encoder.GetString(bs.Bytes);
     resp.data := bs.Bytes;

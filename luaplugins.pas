@@ -57,7 +57,7 @@ implementation
             writeln(i, ': ', lua_toboolean(L, i));
           LUA_TNUMBER:
             writeln(i, ': ', lua_tonumber(L, i));
-          else writeln(i, ': ', lua_typename(L, i));
+          else writeln(i, ': ', lua_typename(L, t));
         end;
       end;
    writeln('--------------- Stack Dump Finished ---------------');
@@ -81,14 +81,14 @@ implementation
       begin
         lua_newtable(luaState);
         tableRef := luaL_ref(luaState, LUA_REGISTRYINDEX);
-        lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
+        lua_geti(luaState, LUA_REGISTRYINDEX, tableRef);
         for enum in json do
         begin
           JSONtoLua(luaState, enum.value);
-
-          lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
-
+          ///lua_pushstring(luaState, enum.key);
+          lua_geti(luaState, LUA_REGISTRYINDEX, tableRef);
           lua_insert(luaState, -2);
+          //lua_rawset(luaState, -3);
           lua_setfield(luaState, -2, PChar(enum.key));
         end;
         luaL_unref(luaState, LUA_REGISTRYINDEX, tableRef);
@@ -97,15 +97,15 @@ implementation
       begin
         lua_newtable(luaState);
         tableRef := luaL_ref(luaState, LUA_REGISTRYINDEX);
-        lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
+        lua_geti(luaState, LUA_REGISTRYINDEX, tableRef);
         for enum in json do
         begin
           JSONtoLua(luaState, enum.value);
 
-          lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
+          lua_geti(luaState, LUA_REGISTRYINDEX, tableRef);
 
           lua_insert(luaState, -2);
-          lua_rawseti(luaState, -2, enum.KeyNum+1);
+          lua_seti(luaState, -2, enum.KeyNum+1);
         end;
         luaL_unref(luaState, LUA_REGISTRYINDEX, tableRef);
       end;
