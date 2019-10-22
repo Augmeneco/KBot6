@@ -12,8 +12,11 @@ class bash:
 		index = requests.get('https://bash.im/index/'+randnum).text 
 		index = bs(index,'html.parser')
 		index = index.find_all('div',"quote__body")
-		index = random.choice(index) 
-		text = index.text.replace('<br/>','\n') 
+		index = random.choice(index)
+		text = str(index)
+		#index = [str(i) for i in index.contents]
+		#text = '\n'.join(index).replace('<br/>','\n').replace('\n      ','')
+		text = text.replace('<br/>','\n')
 		for clear in ['&lt;','&gt;','<div class="quote__body">','</div>']:
 			text = text.replace(clear,'')
 		libkb.apisay(text,msg['toho'])

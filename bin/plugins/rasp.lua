@@ -1,4 +1,4 @@
-json = require("dkjson")
+json = require("cjson")
 cmd = {}
 cmd['keywords']={'расп'}
 cmd['level'] = 1
