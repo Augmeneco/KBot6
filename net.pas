@@ -102,16 +102,14 @@ implementation
     //writeln(ss.DataString);
     client.RequestBody:=SS;
     client.Post(url, bs);
-    resp.code := client.ResponseStatusCode;
-    resp.text := encoder.GetString(bs.Bytes);
-    resp.data := bs.Bytes;
+    result.code := client.ResponseStatusCode;
+    result.text := encoder.GetString(bs.Bytes);
+    result.data := bs.Bytes;
 
     bs.Free;
+    client.RequestBody:=Nil;
     client.Free;
     SS.Free;
-    client.RequestBody:=Nil;
-
-    result := resp;
   end;
 
 initialization

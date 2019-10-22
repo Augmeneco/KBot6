@@ -201,7 +201,7 @@ implementation
 
     lua_newtable(L);
     JSONtoLua(L, msg);
-    lua_rawgeti(L, LUA_REGISTRYINDEX, self.handlerRef);
+    lua_geti(L, LUA_REGISTRYINDEX, self.handlerRef);
     lua_insert(L, -2);
     if lua_pcall(L, 1, 0, 0) <> 0 then
       logWrite('Error while running command: '+lua_tostring(L, -1));
