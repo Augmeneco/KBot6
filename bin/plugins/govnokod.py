@@ -19,7 +19,7 @@ class govnokod:
 		randnum = str(random.randint(min,max))
 		index = requests.get('http://govnokod.ru/'+msg['user_text'].lower()+'?page='+randnum).text
 		index = bs(index,'html.parser')
-		code = re.sub('(\\n\d*\\n)','',random.choice(index.find_all('li','hentry')).find('div').text)
+		code = re.sub('(\\n\d*\\n)','',random.choice(index.find_all('li','hentry')).find('div').text).replace('  ', '&#8195;')
 		description = index.find_all('li','hentry')[0].find('p','description').text
 
 		libkb.apisay(code+'-'*30+description,msg['toho'])
