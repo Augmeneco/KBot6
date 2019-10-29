@@ -4,7 +4,7 @@ unit VKAPI;
 interface
 
   uses
-    fpjson, jsonparser, sysutils, libcurl,
+    fpjson, jsonparser, sysutils,
     Net, Utils;
 
   function callVkApi(method: AnsiString; parameters: Array of AnsiString): TJSONData;
@@ -75,6 +75,8 @@ implementation
     end;
 
     result := json['response'];
+
+    setLength(params, 0);
   end;
 
   procedure sendMsg(peer_id: Integer; text: String);

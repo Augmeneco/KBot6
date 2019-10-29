@@ -9,7 +9,7 @@ implementation
     uses
       sysutils, fpjson, process,
       PythonEngine,
-      Commands, Utils, Database, VKAPI;
+      LongpollChat, Utils, Database, VKAPI;
 
     type
       TPythonCommand = class (TCommand)
@@ -70,6 +70,40 @@ implementation
         end;
       end;
     end;
+
+    function PyObjToJSON(obj: PPyObject): TJSONData;
+    var
+      idx: PNativeInt;
+      idx2: Integer;
+      key, value: PPyObject;
+    begin
+      if obj = py.Py_None then
+        exit(TJSONNull.Create)
+      else if py.PyBool_Check(obj) then
+        if Boolean(py.PyObject_IsTrue(obj)) then
+          exit(TJSONBoolean.Create(true))
+        else
+          exit(TJSONBoolean.Create(false))
+      else if py.PyLong_Check(obj) then
+        exit(TJSONInt64Number.Create(py.PyLong_AsLongLong(obj)))
+      else if py.PyFloat_Check(obj) then
+        exit(TJSONFloatNumber.Create(py.PyFloat_AsDouble(obj)))
+      else if py.PyString_Check(obj) then
+        exit(TJSONString.Create(py.PyString_AsDelphiString(obj)))
+      else if py.PyDict_Check(obj) then
+      begin
+        result := TJSONObject.Create;
+        while Boolean(py.PyDict_Next(obj, idx, @key, @value)) do
+          TJSONObject(result).Add(py.PyObjectAsString(key), PyObjToJSON(value));
+      end
+      else if py.PyList_Check(obj) then
+      begin
+        result := TJSONArray.Create;
+        for idx2 := 0 to py.PyList_Size(obj) - 1 do
+          TJSONArray(result).Add(PyObjToJSON(py.PyList_GetItem(obj, idx2)));
+      end;
+    end;
+
 
     procedure TPythonCommand.handler(msg: TJSONObject);
     var
@@ -206,6 +240,8 @@ implementation
 
         result := JSONtoPyObj(dbResponse);
         py.Py_IncRef(result);
+
+        FreeAndNil(dbResponse);
     end;
 
     function vkApiPython(self, args: PPyObject) : PPyObject; cdecl;
@@ -242,6 +278,9 @@ implementation
 
         result := JSONtoPyObj(response);
         py.Py_IncRef(result);
+
+        FreeAndNil(response);
+        SetLength(parameters, 0);
     end;
 
     function logWritePython(self, args: PPyObject) : PPyObject; cdecl;

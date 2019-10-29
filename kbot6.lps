@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="11"/>
-    <BuildModes Count="2" Active="ReleasePi">
+    <BuildModes Count="2" Active="Debug">
       <Item1 Name="Release">
         <CompilerOptions>
           <Version Value="11"/>
@@ -32,8 +32,7 @@
             </Debugging>
             <LinkSmart Value="True"/>
             <Options>
-              <PassLinkerOptions Value="True"/>
-              <LinkerOptions Value="-R ./ -lpython3.7m -llua"/>
+              <LinkerOptions Value="-R ./"/>
             </Options>
           </Linking>
         </CompilerOptions>
@@ -62,9 +61,6 @@
             </Optimizations>
           </CodeGeneration>
           <Linking>
-            <Debugging>
-              <GenerateDebugInfo Value="False"/>
-            </Debugging>
             <LinkSmart Value="True"/>
             <Options>
               <PassLinkerOptions Value="True"/>
@@ -74,20 +70,19 @@
         </CompilerOptions>
       </Item2>
     </BuildModes>
-    <Units Count="10">
+    <Units Count="31">
       <Unit0>
         <Filename Value="main.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="KBot6"/>
-        <EditorIndex Value="6"/>
-        <TopLine Value="26"/>
-        <CursorPos X="33" Y="40"/>
+        <CursorPos X="34" Y="10"/>
         <IsLocked Value="True"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
           <EditorIndex Value="-1"/>
-          <TopLine Value="23"/>
-          <CursorPos X="42" Y="65"/>
+          <WindowIndex Value="1"/>
+          <TopLine Value="56"/>
+          <CursorPos Y="70"/>
         </ExtraEditor1>
         <UsageCount Value="290"/>
         <Loaded Value="True"/>
@@ -96,16 +91,15 @@
         <Filename Value="net.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Net"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
-        <WindowIndex Value="1"/>
-        <TopLine Value="102"/>
-        <CursorPos Y="113"/>
+        <EditorIndex Value="4"/>
+        <CursorPos X="15" Y="55"/>
+        <IsLocked Value="True"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
-          <TopLine Value="85"/>
-          <CursorPos X="7" Y="102"/>
-          <IsLocked Value="True"/>
+          <EditorIndex Value="-1"/>
+          <WindowIndex Value="1"/>
+          <TopLine Value="75"/>
+          <CursorPos Y="90"/>
         </ExtraEditor1>
         <UsageCount Value="281"/>
         <Loaded Value="True"/>
@@ -114,10 +108,19 @@
         <Filename Value="vkapi.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="VKAPI"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="53"/>
-        <CursorPos X="36" Y="51"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="63"/>
+        <CursorPos X="26" Y="79"/>
         <IsLocked Value="True"/>
+        <ExtraEditorCount Value="1"/>
+        <ExtraEditor1>
+          <IsVisibleTab Value="True"/>
+          <EditorIndex Value="-1"/>
+          <WindowIndex Value="1"/>
+          <TopLine Value="22"/>
+          <CursorPos X="33" Y="7"/>
+        </ExtraEditor1>
         <UsageCount Value="266"/>
         <Loaded Value="True"/>
       </Unit2>
@@ -125,51 +128,43 @@
         <Filename Value="luaplugins.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="LuaPlugins"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="192"/>
-        <CursorPos Y="202"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="17" Y="12"/>
         <IsLocked Value="True"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
+          <EditorIndex Value="-1"/>
           <WindowIndex Value="1"/>
-          <TopLine Value="489"/>
-          <CursorPos X="18" Y="493"/>
+          <TopLine Value="249"/>
+          <CursorPos Y="259"/>
         </ExtraEditor1>
         <UsageCount Value="220"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="commands.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Commands"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="144"/>
-        <CursorPos Y="144"/>
-        <IsLocked Value="True"/>
+        <UnitName Value="LongpollChat"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="6"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
-          <EditorIndex Value="2"/>
+          <EditorIndex Value="-1"/>
           <WindowIndex Value="1"/>
-          <TopLine Value="137"/>
-          <CursorPos Y="155"/>
+          <CursorPos X="6"/>
         </ExtraEditor1>
         <UsageCount Value="201"/>
-        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="utils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Utils"/>
         <EditorIndex Value="-1"/>
-        <WindowIndex Value="1"/>
-        <TopLine Value="51"/>
-        <CursorPos X="20" Y="62"/>
+        <TopLine Value="28"/>
+        <CursorPos X="13" Y="48"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
           <EditorIndex Value="-1"/>
-          <TopLine Value="27"/>
-          <CursorPos X="28" Y="47"/>
+          <CursorPos X="8" Y="49"/>
         </ExtraEditor1>
         <UsageCount Value="200"/>
       </Unit5>
@@ -178,8 +173,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Database"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="14"/>
-        <CursorPos X="37" Y="14"/>
+        <TopLine Value="24"/>
+        <CursorPos Y="34"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
           <EditorIndex Value="-1"/>
@@ -190,15 +185,15 @@
         <Filename Value="pythonplugins.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PythonPlugins"/>
-        <EditorIndex Value="1"/>
-        <WindowIndex Value="1"/>
-        <TopLine Value="79"/>
-        <CursorPos X="22" Y="31"/>
+        <EditorIndex Value="3"/>
+        <CursorPos X="19" Y="12"/>
+        <IsLocked Value="True"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
-          <EditorIndex Value="5"/>
-          <CursorPos X="43" Y="312"/>
-          <IsLocked Value="True"/>
+          <EditorIndex Value="-1"/>
+          <WindowIndex Value="1"/>
+          <TopLine Value="212"/>
+          <CursorPos X="25" Y="220"/>
         </ExtraEditor1>
         <UsageCount Value="206"/>
         <Loaded Value="True"/>
@@ -207,155 +202,268 @@
         <Filename Value="events.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Events"/>
-        <EditorIndex Value="3"/>
-        <CursorPos X="22" Y="16"/>
-        <IsLocked Value="True"/>
-        <UsageCount Value="200"/>
-        <Loaded Value="True"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-web/src/base/fphttpclient.pp"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="1353"/>
-        <CursorPos X="10" Y="1354"/>
-        <UsageCount Value="10"/>
+        <ExtraEditorCount Value="1"/>
+        <ExtraEditor1>
+          <EditorIndex Value="-1"/>
+        </ExtraEditor1>
+        <UsageCount Value="201"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-json/src/fpjson.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2787"/>
+        <CursorPos X="3" Y="2795"/>
+        <UsageCount Value="67"/>
       </Unit9>
+      <Unit10>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/objpas/fgl.pp"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="130"/>
+        <CursorPos X="9" Y="134"/>
+        <UsageCount Value="68"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="../eventstest/eventstest.lpr"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="57"/>
+        <CursorPos Y="68"/>
+        <UsageCount Value="4"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="lib/python4lazarus/PythonEngine.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="5599"/>
+        <CursorPos X="3" Y="5606"/>
+        <UsageCount Value="8"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-base/src/fileinfo.pp"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="53"/>
+        <CursorPos X="23" Y="53"/>
+        <UsageCount Value="30"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/inc/threadh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="9"/>
+        <CursorPos X="35" Y="70"/>
+        <UsageCount Value="6"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/inc/thread.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="373"/>
+        <CursorPos X="24" Y="133"/>
+        <UsageCount Value="6"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-db/src/sqldb/sqldb.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="602"/>
+        <CursorPos X="3" Y="616"/>
+        <UsageCount Value="7"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="backups/1/luaplugins.pas"/>
+        <UnitName Value="LuaPlugins"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="203"/>
+        <CursorPos X="7" Y="223"/>
+        <UsageCount Value="7"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="backups/1/net.pas"/>
+        <UnitName Value="Net"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="80"/>
+        <CursorPos X="13" Y="116"/>
+        <UsageCount Value="7"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="backups/1/utils.pas"/>
+        <UnitName Value="Utils"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="13"/>
+        <CursorPos X="23" Y="107"/>
+        <UsageCount Value="8"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="backups/1/main.pas"/>
+        <UnitName Value="KBot6"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="7"/>
+        <UsageCount Value="8"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/inc/systemh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="696"/>
+        <CursorPos X="3" Y="709"/>
+        <UsageCount Value="8"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-web/src/base/fphttpclient.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="495"/>
+        <CursorPos X="3" Y="488"/>
+        <UsageCount Value="17"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/packages/rtl-extra/src/unix/sockets.pp"/>
+        <UnitName Value="Sockets"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="55"/>
+        <UsageCount Value="8"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-net/src/ssockets.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="27"/>
+        <CursorPos X="3" Y="40"/>
+        <UsageCount Value="8"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="backup/pythonplugins.pas"/>
+        <UnitName Value="PythonPlugins"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="83"/>
+        <CursorPos X="11" Y="99"/>
+        <UsageCount Value="10"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/inc/objpash.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="194"/>
+        <CursorPos X="21" Y="205"/>
+        <UsageCount Value="10"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/inc/objpas.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="657"/>
+        <CursorPos X="24" Y="663"/>
+        <UsageCount Value="10"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="lib/flre/FLRE.pas"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="17251"/>
+        <CursorPos Y="17264"/>
+        <UsageCount Value="11"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="lpchat.pas"/>
+        <UnitName Value="Commands"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="20"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="longpollchat.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="LongpollChat"/>
+        <EditorIndex Value="1"/>
+        <IsLocked Value="True"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit30>
     </Units>
-    <General>
-      <ActiveWindowIndexAtStart Value="1"/>
-    </General>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="19" HistoryIndex="18">
       <Position1>
         <Filename Value="net.pas"/>
-        <Caret Line="102" TopLine="101"/>
+        <Caret Line="124" Column="14" TopLine="101"/>
       </Position1>
       <Position2>
         <Filename Value="net.pas"/>
-        <Caret Line="103" TopLine="101"/>
+        <Caret Line="121" Column="15" TopLine="107"/>
       </Position2>
       <Position3>
-        <Filename Value="luaplugins.pas"/>
-        <Caret Line="198" TopLine="192"/>
+        <Filename Value="net.pas"/>
+        <Caret Line="120" Column="13" TopLine="103"/>
       </Position3>
       <Position4>
-        <Filename Value="net.pas"/>
-        <Caret Line="103" TopLine="101"/>
+        <Filename Value="vkapi.pas"/>
+        <Caret Line="80" Column="22" TopLine="3"/>
       </Position4>
       <Position5>
-        <Filename Value="net.pas"/>
-        <Caret Line="104" TopLine="101"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="70" TopLine="60"/>
       </Position5>
       <Position6>
-        <Filename Value="net.pas"/>
-        <Caret Line="105" TopLine="101"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="72" TopLine="60"/>
       </Position6>
       <Position7>
-        <Filename Value="net.pas"/>
-        <Caret Line="106" TopLine="101"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="70" TopLine="60"/>
       </Position7>
       <Position8>
-        <Filename Value="net.pas"/>
-        <Caret Line="107" TopLine="101"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="72" TopLine="60"/>
       </Position8>
       <Position9>
-        <Filename Value="net.pas"/>
-        <Caret Line="109" TopLine="101"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="70" TopLine="51"/>
       </Position9>
       <Position10>
-        <Filename Value="net.pas"/>
-        <Caret Line="110" TopLine="101"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="36" TopLine="27"/>
       </Position10>
       <Position11>
-        <Filename Value="net.pas"/>
-        <Caret Line="111" TopLine="101"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="37" TopLine="27"/>
       </Position11>
       <Position12>
-        <Filename Value="net.pas"/>
-        <Caret Line="110" Column="32" TopLine="104"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="38" TopLine="27"/>
       </Position12>
       <Position13>
-        <Filename Value="net.pas"/>
-        <Caret Line="103" TopLine="97"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="70" TopLine="56"/>
       </Position13>
       <Position14>
-        <Filename Value="net.pas"/>
-        <Caret Line="104" TopLine="97"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="39" TopLine="27"/>
       </Position14>
       <Position15>
-        <Filename Value="net.pas"/>
-        <Caret Line="105" TopLine="97"/>
+        <Filename Value="vkapi.pas"/>
+        <Caret Line="79" Column="26" TopLine="56"/>
       </Position15>
       <Position16>
-        <Filename Value="net.pas"/>
-        <Caret Line="106" TopLine="97"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="37" TopLine="27"/>
       </Position16>
       <Position17>
-        <Filename Value="net.pas"/>
-        <Caret Line="107" TopLine="97"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="39" TopLine="27"/>
       </Position17>
       <Position18>
         <Filename Value="luaplugins.pas"/>
-        <Caret Line="198" TopLine="192"/>
+        <Caret Line="333" TopLine="321"/>
       </Position18>
       <Position19>
-        <Filename Value="luaplugins.pas"/>
-        <Caret Line="199" TopLine="192"/>
+        <Filename Value="longpollchat.pas"/>
       </Position19>
-      <Position20>
-        <Filename Value="luaplugins.pas"/>
-        <Caret Line="200" TopLine="192"/>
-      </Position20>
-      <Position21>
-        <Filename Value="luaplugins.pas"/>
-        <Caret Line="202" TopLine="192"/>
-      </Position21>
-      <Position22>
-        <Filename Value="net.pas"/>
-        <Caret Line="103" TopLine="97"/>
-      </Position22>
-      <Position23>
-        <Filename Value="net.pas"/>
-        <Caret Line="104" TopLine="97"/>
-      </Position23>
-      <Position24>
-        <Filename Value="net.pas"/>
-        <Caret Line="105" TopLine="97"/>
-      </Position24>
-      <Position25>
-        <Filename Value="net.pas"/>
-        <Caret Line="106" TopLine="97"/>
-      </Position25>
-      <Position26>
-        <Filename Value="net.pas"/>
-        <Caret Line="107" TopLine="97"/>
-      </Position26>
-      <Position27>
-        <Filename Value="net.pas"/>
-        <Caret Line="109" TopLine="98"/>
-      </Position27>
-      <Position28>
-        <Filename Value="net.pas"/>
-        <Caret Line="110" TopLine="99"/>
-      </Position28>
-      <Position29>
-        <Filename Value="net.pas"/>
-        <Caret Line="111" TopLine="100"/>
-      </Position29>
-      <Position30>
-        <Filename Value="net.pas"/>
-        <Caret Line="112" TopLine="101"/>
-      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
-      <Modes Count="2" ActiveMode="pi">
+      <Modes Count="2" ActiveMode="default">
         <Mode0 Name="default">
           <local>
-            <HostApplicationFilename Value="bin/kbot6"/>
+            <HostApplicationFilename Value="/media/lanode/Хранилище/Development/KBot6Laz/bin/kbot6"/>
             <CommandLineParams Value="--colorless"/>
             <WorkingDirectory Value="/media/lanode/Хранилище/Development/KBot6Laz/bin"/>
           </local>
+          <environment>
+            <UserOverrides Count="1">
+              <Variable0 Name="HEAPTRC" Value="log=heap.trc"/>
+            </UserOverrides>
+          </environment>
         </Mode0>
         <Mode1 Name="pi">
           <local>
@@ -368,21 +476,19 @@
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="2">
+    <BreakPoints Count="1">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="luaplugins.pas"/>
-        <Line Value="198"/>
+        <Source Value="commands.pas"/>
+        <Line Value="235"/>
       </Item1>
-      <Item2>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="net.pas"/>
-        <Line Value="102"/>
-      </Item2>
     </BreakPoints>
+    <Watches Count="1">
+      <Item1>
+        <Expression Value="ev"/>
+      </Item1>
+    </Watches>
   </Debugging>
 </CONFIG>

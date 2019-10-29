@@ -17,11 +17,12 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
-      <BuildNr Value="71"/>
+      <MajorVersionNr Value="1"/>
+      <BuildNr Value="82"/>
       <Language Value="0419"/>
       <CharSet Value="04B0"/>
       <Attributes pvaPrivateBuild="True"/>
-      <StringTable CompanyName="Augmeneco" ProductName="KBot6"/>
+      <StringTable CompanyName="Augmeneco" FileDescription="Bot for vk.com" LegalCopyright="MIT License" ProductName="KBot6" ProductVersion="6"/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Debug" Default="True"/>
@@ -56,29 +57,29 @@
         <UnitName Value="LuaPlugins"/>
       </Unit3>
       <Unit4>
-        <Filename Value="commands.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Commands"/>
-      </Unit4>
-      <Unit5>
         <Filename Value="utils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Utils"/>
-      </Unit5>
-      <Unit6>
+      </Unit4>
+      <Unit5>
         <Filename Value="database.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Database"/>
-      </Unit6>
-      <Unit7>
+      </Unit5>
+      <Unit6>
         <Filename Value="pythonplugins.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PythonPlugins"/>
-      </Unit7>
-      <Unit8>
+      </Unit6>
+      <Unit7>
         <Filename Value="events.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Events"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="longpollchat.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="LongpollChat"/>
       </Unit8>
     </Units>
   </ProjectOptions>
@@ -98,17 +99,28 @@
       </SyntaxOptions>
     </Parsing>
     <CodeGeneration>
+      <SmartLinkUnit Value="True"/>
+      <RelocatableUnit Value="True"/>
       <Optimizations>
         <OptimizationLevel Value="0"/>
       </Optimizations>
     </CodeGeneration>
     <Linking>
       <Debugging>
-        <UseValgrind Value="True"/>
+        <UseHeaptrc Value="True"/>
+        <TrashVariables Value="True"/>
       </Debugging>
+      <LinkSmart Value="True"/>
       <Options>
         <LinkerOptions Value="-R ./"/>
       </Options>
     </Linking>
   </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="1">
+      <Item1>
+        <Name Value="ESocketError"/>
+      </Item1>
+    </Exceptions>
+  </Debugging>
 </CONFIG>

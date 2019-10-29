@@ -1,4 +1,4 @@
-unit Commands;
+unit LongpollChat;
 
 interface
 
@@ -38,9 +38,6 @@ implementation
     end;
     PTPack = ^TPack;
 
-  var
-    regexCmdStr: TFLRE;
-
   //procedure TCommand.handler(msg: TJSONObject); begin end;
   procedure THandler.handler(msg: TJSONObject); begin end;
 
@@ -54,6 +51,7 @@ implementation
         logWrite(format('Error while processing message in thread: "%s".%sMSGOBJ: %s',
                         [e.toString(), LineEnding, PTPack(pack)^.msg.asJSON]), TLogType.logError);
     end;
+    FreeAndNil(PTPack(pack)^.msg);
     dispose(PTPack(pack));
     exit(0);
   end;
@@ -91,6 +89,7 @@ implementation
 
   procedure commandsHandler(msg: TJSONObject);
   var
+    regexCmdStr: TFLRE;
     parts : TFLREMultiStrings = nil;
     names: Array of String;
     textWithoutSlash: String;
@@ -99,7 +98,7 @@ implementation
     dbResponse: TJSONArray;
     enum: TJSONEnum;
     pack: PTPack;
-    i: Integer;
+    i, j: Integer;
   begin
     msg.integers['local_id'] := msg.integers['date']+msg.integers['peer_id']+msg.integers['from_id'];
 
@@ -152,6 +151,8 @@ implementation
       names[high(names)] := veryBadToLower(enum.value.asString);
     end;
 
+    regexCmdStr := TFLRE.create('^\s*(\[club(\d+)\|\s*\S+\s*\]|\S+)(?:\s+(\S+)|\s*$)(?:\s+(\S.*)$|\s*$)',
+                            [ rfUTF8, rfSINGLELINE ]);
     if regexCmdStr.UTF8ExtractAll(textWithoutSlash, parts)
        and (((length(parts[0][2]) > 0) and (strToInt(parts[0][2]) = config.integers['group_id']))
             or AnsiMatchStr(veryBadToLower(parts[0][1]), names)
@@ -173,18 +174,33 @@ implementation
     end
     else
     begin
+      setLength(names, 0);
       // Free regexp memory
       for i := 0 to length(parts)-1 do
-          setLength(parts[i], 0);
+      begin
+        for j := 0 to length(parts[i])-1 do
+          setLength(parts[i][j], 0);
+        setLength(parts[i], 0);
+        parts[i] := nil;
+      end;
       parts := nil;
+      FreeAndNil(regexCmdStr);
 
       exit;
     end;
 
+    setLength(names, 0);
     // Free regexp memory
     for i := 0 to length(parts)-1 do
-        setLength(parts[i], 0);
+    begin
+      //for j := 0 to length(parts[i])-1 do
+      //  setLength(parts[i][j], 0);
+      setLength(parts[i], 0);
+      parts[i] := nil;
+    end;
+    setLength(parts, 0);
     parts := nil;
+    FreeAndNil(regexCmdStr);
 
     logWrite(format('Mentioned by %d in %d. Info{Text: "%s", AttachCount: %d, ID: %u}',
                     [msg.integers['from_id'],
@@ -203,10 +219,15 @@ implementation
         beginThread(@thread, pack);
       end;
     end;
+    cmd := nil;
   end;
 
+initialization
 begin
-  regexCmdStr := TFLRE.create('^\s*(\[club(\d+)\|\s*\S+\s*\]|\S+)(?:\s+(\S+)|\s*$)(?:\s+(\S.*)$|\s*$)',
-                              [ rfUTF8, rfSINGLELINE ]);
+end;
+finalization
+begin
+  writeln('sos sas');
+end;
 end.
 

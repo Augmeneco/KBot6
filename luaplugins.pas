@@ -9,7 +9,7 @@ interface
 implementation
   uses
     fpjson, lua53, dynlibs, sysutils,
-    Commands, Database, VKAPI, Utils, Net;
+    LongpollChat, Database, VKAPI, Utils, Net;
 
   type
     TLuaCommand = class (TCommand)
@@ -27,39 +27,42 @@ implementation
     mainLuaState: Plua_State;
     mainLuaMutex: TRTLCriticalSection;
 
-  procedure stackDump(L: Plua_State; count: Integer=5; top: Boolean=true);
+   procedure stackDump(L: Plua_State; count: Integer=5; top: Boolean=true);
   var
-    i, t: Integer;
+    i, j, t: Integer;
   begin
     writeln('------------------- Stack Dump --------------------');
-    if top then
-      for i:=-1 downto -count do
-      begin
-        t := lua_type(L, i);
-        case t of
-          LUA_TSTRING:
-            writeln(i, ': "', lua_tostring(L, i), '"');
-          LUA_TBOOLEAN:
-            writeln(i, ': ', lua_toboolean(L, i));
-          LUA_TNUMBER:
-            writeln(i, ': ', lua_tonumber(L, i));
-          else writeln(i, ': ', lua_typename(L, i));
-        end;
-      end
-    else
-      for i:=1 downto count do
-      begin
-        t := lua_type(L, i);
-        case t of
-          LUA_TSTRING:
-            writeln(i, ': "', lua_tostring(L, i), '"');
-          LUA_TBOOLEAN:
-            writeln(i, ': ', lua_toboolean(L, i));
-          LUA_TNUMBER:
-            writeln(i, ': ', lua_tonumber(L, i));
-          else writeln(i, ': ', lua_typename(L, t));
-        end;
+    for i:=1 to count do
+    begin
+      if top then
+        j := -i
+      else
+        j := i;
+      t := lua_type(L, j);
+      case t of
+        LUA_TSTRING:
+          writeln(format('%d: "%s"', [j, lua_tostring(L, j)]));
+        LUA_TBOOLEAN:
+          writeln(j, ': ', lua_toboolean(L, j));
+        LUA_TNUMBER:
+          writeln(j, ': ', lua_tonumber(L, j));
+        LUA_TNIL:
+          writeln(j, ': nil');
+        LUA_TNONE:
+          writeln(j, ': none');
+        LUA_TFUNCTION:
+          writeln(format('%d: <function %p>', [j, lua_topointer(L, j)]));
+        LUA_TTABLE:
+          writeln(format('%d: <table %p>', [j, lua_topointer(L, j)]));
+        LUA_TTHREAD:
+          writeln(format('%d: <thread %p>', [j, lua_topointer(L, j)]));
+        LUA_TUSERDATA:
+          writeln(format('%d: <userdata %p>', [j, lua_topointer(L, j)]));
+        LUA_TLIGHTUSERDATA:
+          writeln(format('%d: <lightuserdata %p>', [j, lua_topointer(L, j)]));
+        else writeln(j, ': ', lua_typename(L, t));
       end;
+    end;
    writeln('--------------- Stack Dump Finished ---------------');
   end;
 
@@ -114,32 +117,37 @@ implementation
 
   function luaToJSON(luaState: Plua_State): TJSONData;
   var
-    isArray: Boolean;
+    isArray, isChecked: Boolean;
     obj: TJSONObject;
     arr: TJSONArray;
-    tableRef: Integer;
+    tableRef, idxRef: Integer;
     k, max: Double;
   begin
     if lua_isnil(luaState, -1) then
-      result.Value := nil
+      result := TJSONNull.Create
     else if lua_isboolean(luaState, -1) then
-      result.Value := lua_toboolean(luaState, -1)
+      result := TJSONBoolean.Create(lua_toboolean(luaState, -1))
     else if lua_isnumber(luaState, -1) then
-      result.Value := lua_tonumber(luaState, -1)
+      if frac(lua_tonumber(luaState, -1)) = 0 then
+        result := TJSONInt64Number.Create(trunc(lua_tonumber(luaState, -1)))
+      else
+        result := TJSONFloatNumber.Create(lua_tonumber(luaState, -1))
     else if lua_isstring(luaState, -1) then
-      result.Value := lua_tostring(luaState, -1)
+      result := TJSONString.Create(lua_tostring(luaState, -1))
     else if lua_istable(luaState, -1) then
     begin
+      stackDump(luaState);
       // Is not array?
       isArray := true;
+      isChecked := false;
       lua_pushnil(luaState);  // first key
       max := 0;
       while lua_next(luaState, -2) <> 0 do
       begin
+        isChecked := true;
         if lua_isnumber(luaState, -2) then
         begin
           k := lua_tonumber(luaState, -2);
-          lua_pop(luaState, 1);
           // Integer >= 1 ?
           if (trunc(k) = k) and (k >= 1) then
           begin
@@ -148,6 +156,7 @@ implementation
             else
             begin
               isArray := false;
+              lua_pop(luaState, 1);
               break;
             end;
           end;
@@ -155,39 +164,58 @@ implementation
         else
         begin
           isArray := false;
+          lua_pop(luaState, 1);
           break;
         end;
+        lua_pop(luaState, 1);
       end;
-      lua_pop(luaState, 1);
-
+      if isChecked then
+        lua_pop(luaState, 1);
+      stackDump(luaState);
       if isArray then
         arr := TJSONArray.Create
       else
         obj := TJSONObject.Create;
 
       tableRef := luaL_ref(luaState, LUA_REGISTRYINDEX);
-      lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
+      stackDump(luaState);
+      lua_geti(luaState, LUA_REGISTRYINDEX, tableRef);
+      writeln(format('%p', [lua_topointer(luaState, -1)]));
+      stackDump(luaState);
       lua_pushnil(luaState);  // first key
+      stackDump(luaState);
+      isChecked := false;
       while lua_next(luaState, -2) <> 0 do
       begin
+        isChecked := true;
         // uses 'key' (at index -2) and 'value' (at index -1)
+        lua_insert(luaState, -2);
+        idxRef := luaL_ref(luaState, LUA_REGISTRYINDEX);
+        lua_geti(luaState, LUA_REGISTRYINDEX, idxRef);
+        lua_insert(luaState, -2);
+        stackDump(luaState, 2);
         if isArray then
           arr.Add(luaToJSON(luaState))
         else
           obj.Add(lua_tostring(luaState, -2), luaToJSON(luaState));
-        lua_rawgeti(luaState, LUA_REGISTRYINDEX, tableRef);
+        //lua_pop(luaState, 1);
+        lua_geti(luaState, LUA_REGISTRYINDEX, tableRef);
+        lua_geti(luaState, LUA_REGISTRYINDEX, idxRef);
+        luaL_unref(luaState, LUA_REGISTRYINDEX, idxRef);
         //removes 'value'; keeps 'key' for next iteration
         //lua_pushstring(L, parameters[high(parameters)-1]);
-        lua_pop(luaState, 1);
       end;
-      lua_pop(luaState, 1);
+      if isChecked then
+        lua_pop(luaState, 1);
       luaL_unref(luaState, LUA_REGISTRYINDEX, tableRef);
-
+      stackDump(luaState);
       if isArray then
         result := arr
       else
         result := obj;
-    end;
+    end
+    else
+      result := TJSONString.Create(lua_tostring(luaState, -1))
   end;
 
 
@@ -336,6 +364,8 @@ implementation
     lua_newtable(L);
     JSONtoLua(L, dbResponse);
 
+    FreeAndNil(dbResponse);
+
     result := 1;
   end;
 
@@ -358,7 +388,13 @@ implementation
         parameters[high(parameters)] := lua_tostring(L, -2);
 
         setLength(parameters, length(parameters)+1);
-        parameters[high(parameters)] := lua_tostring(L, -1);
+        if lua_isnumber(l, -1) then
+          if frac(lua_tonumber(l, -1)) = 0 then
+            parameters[high(parameters)] := intToStr(trunc(lua_tonumber(L, -1)))
+          else
+            parameters[high(parameters)] := floatToStr(lua_tonumber(l, -1))
+        else
+          parameters[high(parameters)] := lua_tostring(L, -1);
         //removes 'value'; keeps 'key' for next iteration
         //lua_pushstring(L, parameters[high(parameters)-1]);
         lua_pop(L, 1);
@@ -369,6 +405,8 @@ implementation
     response := callVkApi(method, parameters);
 
     JSONtoLua(L, response);
+
+    FreeAndNil(response);
 
     result := 1;
   end;
@@ -445,6 +483,10 @@ implementation
     lua_setfield(L, -2, 'text');
     lua_pushlstring(L, PChar(resp.data), length(resp.data));
     lua_setfield(L, -2, 'data');
+
+    setLength(paramsArray, 0);
+    setLength(filesArray, 0);
+    FreeAndNil(files);
     exit(1);
   end;
 
