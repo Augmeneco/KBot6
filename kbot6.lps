@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="11"/>
-    <BuildModes Count="2" Active="Debug">
+    <BuildModes Count="2" Active="Release">
       <Item1 Name="Release">
         <CompilerOptions>
           <Version Value="11"/>
@@ -170,17 +170,16 @@
         <Filename Value="pythonplugins.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PythonPlugins"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="361"/>
-        <CursorPos X="33" Y="379"/>
+        <TopLine Value="360"/>
+        <CursorPos X="29" Y="329"/>
         <IsLocked Value="True"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
-          <EditorIndex Value="-1"/>
+          <IsVisibleTab Value="True"/>
           <WindowIndex Value="1"/>
-          <TopLine Value="212"/>
-          <CursorPos X="25" Y="220"/>
+          <TopLine Value="342"/>
+          <CursorPos X="20" Y="352"/>
         </ExtraEditor1>
         <UsageCount Value="206"/>
         <Loaded Value="True"/>
@@ -201,10 +200,12 @@
         <Filename Value="longpollchat.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="LongpollChat"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="202"/>
+        <TopLine Value="40"/>
+        <CursorPos X="43" Y="56"/>
         <IsLocked Value="True"/>
-        <UsageCount Value="30"/>
+        <UsageCount Value="34"/>
         <Loaded Value="True"/>
       </Unit8>
       <Unit9>
@@ -374,7 +375,7 @@
         <UsageCount Value="19"/>
       </Unit30>
     </Units>
-    <JumpHistory Count="19" HistoryIndex="18">
+    <JumpHistory Count="21" HistoryIndex="20">
       <Position1>
         <Filename Value="net.pas"/>
         <Caret Line="124" Column="14" TopLine="101"/>
@@ -450,6 +451,14 @@
       <Position19>
         <Filename Value="longpollchat.pas"/>
       </Position19>
+      <Position20>
+        <Filename Value="pythonplugins.pas"/>
+        <Caret Line="379" Column="33" TopLine="361"/>
+      </Position20>
+      <Position21>
+        <Filename Value="pythonplugins.pas"/>
+        <Caret Line="378" Column="17" TopLine="360"/>
+      </Position21>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
