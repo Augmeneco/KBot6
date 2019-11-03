@@ -108,21 +108,27 @@ implementation
     procedure TPythonCommand.handler(msg: TJSONObject);
     var
       arglist: PPyObject;
+      gil: PyGILState_STATE;
     begin
+      gil := py.PyGILState_Ensure();
       arglist := py.Py_BuildValue('(O)', JSONtoPyObj(msg));
       if py.PyObject_CallObject(self.handlerObj, arglist) = nil then
         py.PyErr_Print();
       py.Py_DECREF(arglist);
+      py.PyGILState_Release(gil);
     end;
 
     procedure TPythonHandler.handler(msg: TJSONObject);
     var
       arglist: PPyObject;
+      gil: PyGILState_STATE;
     begin
+      gil := py.PyGILState_Ensure();
       arglist := py.Py_BuildValue('(O)', JSONtoPyObj(msg));
       if py.PyObject_CallObject(self.handlerObj, arglist) = nil then
         py.PyErr_Print();
       py.Py_DECREF(arglist);
+      py.PyGILState_Release(gil);
     end;
 
     function registerHandlerPython(self, args: PPyObject) : PPyObject; cdecl;
@@ -320,6 +326,7 @@ implementation
       pName, pModule: PPyObject;
       pluginName: String;
       ldConfOutput: String;
+      thread: PPyThreadState;
     begin
       logWrite('Create python instance...');
       py := TPythonEngine.Create(Nil);
@@ -367,6 +374,8 @@ implementation
           end;
         until findNext(fSearchRes) <> 0;
       findClose(fSearchRes);
+
+      thread := py.PyEval_SaveThread();
     end;
 
 end.

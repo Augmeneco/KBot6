@@ -108,16 +108,14 @@
         <Filename Value="vkapi.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="VKAPI"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="63"/>
+        <TopLine Value="44"/>
         <CursorPos X="26" Y="79"/>
         <IsLocked Value="True"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
-          <IsVisibleTab Value="True"/>
           <EditorIndex Value="-1"/>
-          <WindowIndex Value="1"/>
+          <WindowIndex Value="-1"/>
           <TopLine Value="22"/>
           <CursorPos X="33" Y="7"/>
         </ExtraEditor1>
@@ -142,19 +140,6 @@
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="commands.pas"/>
-        <UnitName Value="LongpollChat"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="6"/>
-        <ExtraEditorCount Value="1"/>
-        <ExtraEditor1>
-          <EditorIndex Value="-1"/>
-          <WindowIndex Value="1"/>
-          <CursorPos X="6"/>
-        </ExtraEditor1>
-        <UsageCount Value="201"/>
-      </Unit4>
-      <Unit5>
         <Filename Value="utils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Utils"/>
@@ -167,8 +152,8 @@
           <CursorPos X="8" Y="49"/>
         </ExtraEditor1>
         <UsageCount Value="200"/>
-      </Unit5>
-      <Unit6>
+      </Unit4>
+      <Unit5>
         <Filename Value="database.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Database"/>
@@ -180,13 +165,15 @@
           <EditorIndex Value="-1"/>
         </ExtraEditor1>
         <UsageCount Value="218"/>
-      </Unit6>
-      <Unit7>
+      </Unit5>
+      <Unit6>
         <Filename Value="pythonplugins.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PythonPlugins"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <CursorPos X="19" Y="12"/>
+        <TopLine Value="361"/>
+        <CursorPos X="33" Y="379"/>
         <IsLocked Value="True"/>
         <ExtraEditorCount Value="1"/>
         <ExtraEditor1>
@@ -197,8 +184,8 @@
         </ExtraEditor1>
         <UsageCount Value="206"/>
         <Loaded Value="True"/>
-      </Unit7>
-      <Unit8>
+      </Unit6>
+      <Unit7>
         <Filename Value="events.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Events"/>
@@ -209,168 +196,182 @@
           <EditorIndex Value="-1"/>
         </ExtraEditor1>
         <UsageCount Value="201"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="longpollchat.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="LongpollChat"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="202"/>
+        <IsLocked Value="True"/>
+        <UsageCount Value="30"/>
+        <Loaded Value="True"/>
       </Unit8>
       <Unit9>
+        <Filename Value="commands.pas"/>
+        <UnitName Value="LongpollChat"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="6"/>
+        <ExtraEditorCount Value="1"/>
+        <ExtraEditor1>
+          <EditorIndex Value="-1"/>
+          <WindowIndex Value="1"/>
+          <CursorPos X="6"/>
+        </ExtraEditor1>
+        <UsageCount Value="200"/>
+      </Unit9>
+      <Unit10>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-json/src/fpjson.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="2787"/>
         <CursorPos X="3" Y="2795"/>
-        <UsageCount Value="67"/>
-      </Unit9>
-      <Unit10>
+        <UsageCount Value="66"/>
+      </Unit10>
+      <Unit11>
         <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/objpas/fgl.pp"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <TopLine Value="130"/>
         <CursorPos X="9" Y="134"/>
-        <UsageCount Value="68"/>
-      </Unit10>
-      <Unit11>
+        <UsageCount Value="67"/>
+      </Unit11>
+      <Unit12>
         <Filename Value="../eventstest/eventstest.lpr"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="57"/>
         <CursorPos Y="68"/>
-        <UsageCount Value="4"/>
-      </Unit11>
-      <Unit12>
+        <UsageCount Value="3"/>
+      </Unit12>
+      <Unit13>
         <Filename Value="lib/python4lazarus/PythonEngine.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="5599"/>
         <CursorPos X="3" Y="5606"/>
-        <UsageCount Value="8"/>
-      </Unit12>
-      <Unit13>
+        <UsageCount Value="7"/>
+      </Unit13>
+      <Unit14>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-base/src/fileinfo.pp"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <TopLine Value="53"/>
         <CursorPos X="23" Y="53"/>
-        <UsageCount Value="30"/>
-      </Unit13>
-      <Unit14>
+        <UsageCount Value="29"/>
+      </Unit14>
+      <Unit15>
         <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/inc/threadh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="9"/>
         <CursorPos X="35" Y="70"/>
-        <UsageCount Value="6"/>
-      </Unit14>
-      <Unit15>
+        <UsageCount Value="5"/>
+      </Unit15>
+      <Unit16>
         <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/inc/thread.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="373"/>
         <CursorPos X="24" Y="133"/>
-        <UsageCount Value="6"/>
-      </Unit15>
-      <Unit16>
+        <UsageCount Value="5"/>
+      </Unit16>
+      <Unit17>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-db/src/sqldb/sqldb.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="602"/>
         <CursorPos X="3" Y="616"/>
-        <UsageCount Value="7"/>
-      </Unit16>
-      <Unit17>
+        <UsageCount Value="6"/>
+      </Unit17>
+      <Unit18>
         <Filename Value="backups/1/luaplugins.pas"/>
         <UnitName Value="LuaPlugins"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="203"/>
         <CursorPos X="7" Y="223"/>
-        <UsageCount Value="7"/>
-      </Unit17>
-      <Unit18>
+        <UsageCount Value="6"/>
+      </Unit18>
+      <Unit19>
         <Filename Value="backups/1/net.pas"/>
         <UnitName Value="Net"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="80"/>
         <CursorPos X="13" Y="116"/>
-        <UsageCount Value="7"/>
-      </Unit18>
-      <Unit19>
+        <UsageCount Value="6"/>
+      </Unit19>
+      <Unit20>
         <Filename Value="backups/1/utils.pas"/>
         <UnitName Value="Utils"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="13"/>
         <CursorPos X="23" Y="107"/>
-        <UsageCount Value="8"/>
-      </Unit19>
-      <Unit20>
+        <UsageCount Value="7"/>
+      </Unit20>
+      <Unit21>
         <Filename Value="backups/1/main.pas"/>
         <UnitName Value="KBot6"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="7"/>
-        <UsageCount Value="8"/>
-      </Unit20>
-      <Unit21>
+        <UsageCount Value="7"/>
+      </Unit21>
+      <Unit22>
         <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/inc/systemh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="696"/>
         <CursorPos X="3" Y="709"/>
-        <UsageCount Value="8"/>
-      </Unit21>
-      <Unit22>
+        <UsageCount Value="7"/>
+      </Unit22>
+      <Unit23>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-web/src/base/fphttpclient.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="495"/>
         <CursorPos X="3" Y="488"/>
-        <UsageCount Value="17"/>
-      </Unit22>
-      <Unit23>
+        <UsageCount Value="16"/>
+      </Unit23>
+      <Unit24>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/rtl-extra/src/unix/sockets.pp"/>
         <UnitName Value="Sockets"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="55"/>
-        <UsageCount Value="8"/>
-      </Unit23>
-      <Unit24>
+        <UsageCount Value="7"/>
+      </Unit24>
+      <Unit25>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-net/src/ssockets.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="27"/>
         <CursorPos X="3" Y="40"/>
-        <UsageCount Value="8"/>
-      </Unit24>
-      <Unit25>
+        <UsageCount Value="7"/>
+      </Unit25>
+      <Unit26>
         <Filename Value="backup/pythonplugins.pas"/>
         <UnitName Value="PythonPlugins"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="83"/>
         <CursorPos X="11" Y="99"/>
-        <UsageCount Value="10"/>
-      </Unit25>
-      <Unit26>
+        <UsageCount Value="9"/>
+      </Unit26>
+      <Unit27>
         <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/inc/objpash.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="194"/>
         <CursorPos X="21" Y="205"/>
-        <UsageCount Value="10"/>
-      </Unit26>
-      <Unit27>
+        <UsageCount Value="9"/>
+      </Unit27>
+      <Unit28>
         <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/inc/objpas.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="657"/>
         <CursorPos X="24" Y="663"/>
-        <UsageCount Value="10"/>
-      </Unit27>
-      <Unit28>
+        <UsageCount Value="9"/>
+      </Unit28>
+      <Unit29>
         <Filename Value="lib/flre/FLRE.pas"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <TopLine Value="17251"/>
         <CursorPos Y="17264"/>
-        <UsageCount Value="11"/>
-      </Unit28>
-      <Unit29>
+        <UsageCount Value="10"/>
+      </Unit29>
+      <Unit30>
         <Filename Value="lpchat.pas"/>
         <UnitName Value="Commands"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="20"/>
-      </Unit29>
-      <Unit30>
-        <Filename Value="longpollchat.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="LongpollChat"/>
-        <EditorIndex Value="1"/>
-        <IsLocked Value="True"/>
-        <UsageCount Value="20"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="19"/>
       </Unit30>
     </Units>
     <JumpHistory Count="19" HistoryIndex="18">
