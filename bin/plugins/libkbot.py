@@ -1,6 +1,5 @@
-import kb
-import requests
-import json
+import kb, requests, json, os, time
+
 def fix_names(msg):
     msg['userid'] = msg['from_id']
     msg['toho'] = msg['peer_id']
@@ -18,6 +17,26 @@ def chunks(l, n):
     for i in range(0, len(l), n):
         yield l[i:i + n]
         
+def getproxy(): 
+    if not os.path.exists('/tmp/tmpfs/proxy'):
+        open('/tmp/tmpfs/proxy','w').write('{"proxy":"http://84.22.61.46:53281","time":'+str(time.time()-2700)+'}')
+
+    info = json.loads(open('/tmp/tmpfs/proxy','r').read())
+    if time.time() - info["time"] >= 2700:
+        while True:
+            data = requests.get('https://api.getproxylist.com/proxy').json()
+            if 'error' in data:
+                proxies = {'http':info['proxy'],'https':info['proxy']}
+                return proxies
+            if data['protocol'] == 'http': break
+
+
+        proxies = {'http':data['protocol']+'://'+data['ip']+':'+str(data['port']),'https':data['protocol']+'://'+data['ip']+':'+str(data['port'])}
+        open('/tmp/tmpfs/proxy','w').write('{"proxy":"'+data['protocol']+'://'+data['ip']+':'+str(data['port'])+'","time":'+str(time.time())+'}')
+    else:
+        proxies = {'http':info['proxy'],'https':info['proxy']}
+    return proxies
+
 def apisay(text,toho,attachment=None,keyboard={"buttons":[],"one_time":True},photo=None):
     token = kb.config['group_token']
     if photo != None:
