@@ -53,6 +53,7 @@ implementation
     end;
     FreeAndNil(PTPack(pack)^.msg);
     dispose(PTPack(pack));
+    logWrite('Message processing finished.');
     exit(0);
   end;
 
