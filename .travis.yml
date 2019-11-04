@@ -13,11 +13,11 @@ matrix:
     - os: linux
       env: LAZ_VER=2.0.4 LAZ_ENV=wine WINEARCH=win64 LAZ_OPT="--os=win64 --cpu=x86_64"
     - os: linux
-      env: LAZ_VER=2.0.4
+      env: LAZ_VER=2.0.4 
 git:
   depth: 3
-#before_install:
-#  - sudo apt-get -y install libxml2-dev
+before_install:
+  - sudo apt-get -y install liblua5.3-0 python3.7
 install: ./travis-lazarus/.travis.install.py
 script:
   - lazbuild $LAZ_OPT kbot6.lpi               # Build my_lazarus_test project
