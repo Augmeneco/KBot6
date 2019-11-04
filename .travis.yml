@@ -1,6 +1,6 @@
 language: generic
 sudo: required
-dist: trusty
+dist: bionic
 env:
   - LAZ_VER=2.0.4
 os:
