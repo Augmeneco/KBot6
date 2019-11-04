@@ -5,12 +5,15 @@ env:
   - LAZ_VER=2.0.4
 os:
   - linux
+
 matrix:
   include:
     - os: linux
       env: LAZ_VER=2.0.4 LAZ_ENV=wine WINEARCH=win32 LAZ_OPT="--os=win32 --cpu=i386"
     - os: linux
       env: LAZ_VER=2.0.4 LAZ_ENV=wine WINEARCH=win64 LAZ_OPT="--os=win64 --cpu=x86_64"
+    - os: linux
+      env: LAZ_VER=2.0.4
 git:
   depth: 3
 #before_install:
