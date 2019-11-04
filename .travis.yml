@@ -18,7 +18,8 @@ git:
   depth: 3
 before_install:
   - sudo apt-get -y install liblua5.3-0 python3.7
-  - ln -s /usr/lib/x86_64-linux-gnu/liblua5.3.so.0 /usr/lib/x86_64-linux-gnu/liblua5.3.so
+  - export LUAPATH=$(find /usr/ -name liblua5.3.so.0 | sed 's/liblua5.3.so.0//')
+  - ln -s $LUAPATH/liblua5.3.so.0 $LUAPATH/liblua5.3.so
 install: ./travis-lazarus/.travis.install.py
 script:
   - lazbuild $LAZ_OPT kbot6.lpi               # Build my_lazarus_test project
